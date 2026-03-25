@@ -22,14 +22,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','N
   background:var(--bg);color:var(--ink);font-size:16px;min-height:100vh;
   -webkit-font-smoothing:antialiased;}
 .app-header{display:flex;align-items:center;justify-content:space-between;
-  padding:10px 20px;background:var(--card);border-bottom:.5px solid var(--bdr);gap:12px;}
+  padding:14px 20px;background:var(--card);border-bottom:.5px solid var(--bdr);gap:12px;}
 .header-left{flex-shrink:0}
-.header-title{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:.02em;line-height:1.2}
-.header-sub{font-size:10px;color:var(--hint);letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
-.header-right{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.hkpi{background:var(--bg);border-radius:8px;padding:5px 10px;text-align:left}
-.hkpi-l{font-size:9px;color:var(--hint);letter-spacing:.04em}
-.hkpi-v{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em;line-height:1.2}
+.header-title{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:.02em;line-height:1.2}
+.header-sub{font-size:11px;color:var(--hint);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+
 nav{background:var(--card);border-bottom:.5px solid var(--bdr);
   display:flex;justify-content:center;gap:0;position:sticky;top:0;z-index:100;
   box-shadow:0 1px 10px rgba(0,0,0,.02);}
@@ -37,9 +34,15 @@ nav button{flex:1;max-width:140px;padding:14px 8px;font-size:14px;font-weight:60
   background:none;border:none;color:var(--sub);cursor:pointer;
   border-bottom:3px solid transparent;transition:all .2s ease;-webkit-tap-highlight-color:transparent}
 nav button.on{color:var(--acc);border-bottom-color:var(--acc)}
-.kpi-grid{display:none}
+
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px 20px 0}
+.kpi{background:var(--card);border-radius:var(--r);padding:16px 20px;box-shadow:var(--shadow);}
+.kpi-label{font-size:12px;color:var(--sub);margin-bottom:6px;font-weight:500;}
+.kpi-val{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.kpi-note{font-size:11px;color:var(--hint);margin-top:6px;line-height:1.3}
+
 .pos{color:var(--grn)}.neg{color:var(--red)}.neu{color:var(--acc)}
-.alerts{padding:8px 16px 0}
+.alerts{padding:16px 20px 0}
 .alert-bar{background:var(--card);border-radius:10px;padding:10px 14px;font-size:12px;
   display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow);}
 .alert-row{display:flex;gap:6px;align-items:flex-start;line-height:1.4}
@@ -145,7 +148,6 @@ tr:hover td{background:var(--bg)}
     <div class="header-title">Kiyabu Family</div>
     <div class="header-sub">Life Planning Simulator</div>
   </div>
-  <div class="header-right" id="header-kpi"></div>
 </header>
 
 <nav>
@@ -384,7 +386,7 @@ buildFPList();
 
 // ── localStorage（エラーハンドリング付き） ──
 const LS_KEY='lifeplan_data';
-const LS_VER='v5';
+const LS_VER='v7'; // UI変更でバージョンアップ
 function saveData(){
   try{
     const data={};
@@ -395,7 +397,7 @@ function saveData(){
 
 function loadData(){
   try{
-    ['','_v1','_v2','_v3','_v4'].forEach(v=>{
+    ['','_v1','_v2','_v3','_v4','_v5','_v6'].forEach(v=>{
       try{localStorage.removeItem(LS_KEY+v);}catch(e){}
     });
     const saved=localStorage.getItem(LS_KEY+'_'+LS_VER);
@@ -411,7 +413,7 @@ function loadData(){
 function resetData(){
   if(confirm('入力したデータをすべて初期値に戻しますか？')){
     try{
-      ['','_v1','_v2','_v3','_v4','_v5'].forEach(v=>{
+      ['','_v1','_v2','_v3','_v4','_v5','_v6','_v7'].forEach(v=>{
         localStorage.removeItem(LS_KEY+v);
       });
     }catch(e){}
@@ -473,6 +475,7 @@ function readParams(){
   };
 }
 
+// ── より正確な税金・社会保険料計算 ──
 function calcTaxShk(income, isEmployed, age){
   if(income<=0)return{tax:0,shk:0};
 
@@ -506,14 +509,16 @@ function calcTaxShk(income, isEmployed, age){
   else if(taxable<=1800)inTax=taxable*0.33-153.6;
   else if(taxable<=4000)inTax=taxable*0.40-279.6;
   else inTax=taxable*0.45-479.6;
-  inTax=Math.max(0,inTax)*1.021;
+  inTax=Math.max(0,inTax)*1.021; 
 
-  const resTax=Math.max(0,taxable-43)*0.10;
+  const resTax=Math.max(0,taxable-43)*0.10; 
 
   return{tax:Math.round(inTax+resTax),shk:Math.round(shk)};
 }
 
+// ── メイン計算 ──
 function calc(P){
+  // 現在34歳として、90歳までは56年。57年分計算すれば確実に90歳までカバー
   const N=57,am=[],as=[],ac1=[],ac2=[],yr=[];
   for(let i=0;i<N;i++){
     yr.push(2026+i);am.push(P.ageMn+i);as.push(P.ageSp+i);
@@ -549,7 +554,7 @@ function calc(P){
   const hou=am.map(a=>{
     if(a<P.houseBuyAge)return P.rentPre;
     let cost=0;
-    if(a===P.houseBuyAge)cost+=P.houseInitial;
+    if(a===P.houseBuyAge)cost+=P.houseInitial;  
     if(a>=P.houseBuyAge&&a<P.houseBuyAge+P.loanYears)cost+=P.loanAnn;
     if(a>=P.houseBuyAge)cost+=P.maint;
     return cost;
@@ -608,7 +613,7 @@ function calc(P){
     if(a===P.pensionStart){
       const recv=Math.round(lp*(1+rl))+P.dcCorp;
       irecv.push(recv);
-      ia.push(0);
+      ia.push(0);   
       lp=0;
     } else if(a>P.pensionStart){
       irecv.push(0);
@@ -656,17 +661,17 @@ function renderKPI(){
   const t65c=t65>5000?'pos':t65>2000?'neu':'neg';
   const defC=defY===0?'pos':defY<5?'neu':'neg';
 
-  // ── ここをご要望通りに修正 ──
-  document.getElementById('header-kpi').innerHTML=`
-    <div class="hkpi" style="text-align:left;">
-      <div class="hkpi-l">65歳 金融資産</div>
-      <div class="hkpi-v ${t65c}">${fmt(t65)}</div>
-      <div style="font-size:9px;color:var(--hint);margin-top:2px;letter-spacing:-0.02em;">NISA+iDeCo+預金</div>
+  // KPIをタブ直下の .kpi-grid に描画（元のUIデザインを維持）
+  document.getElementById('kpis').innerHTML=`
+    <div class="kpi">
+      <div class="kpi-label">65歳 金融資産</div>
+      <div class="kpi-val ${t65c}">${fmt(t65)}</div>
+      <div class="kpi-note">NISA+iDeCo+預金</div>
     </div>
-    <div class="hkpi" style="text-align:left;">
-      <div class="hkpi-l">収支赤字 年数</div>
-      <div class="hkpi-v ${defC}">${defY}年</div>
-      <div style="font-size:9px;color:var(--hint);margin-top:2px;letter-spacing:-0.02em;">年間収支がマイナスの年</div>
+    <div class="kpi">
+      <div class="kpi-label">収支赤字 年数</div>
+      <div class="kpi-val ${defC}">${defY}年</div>
+      <div class="kpi-note">年間収支がマイナスの年</div>
     </div>`;
 
   const rows=[];
@@ -680,10 +685,12 @@ function renderKPI(){
 function renderGraphs(){
   const el=document.getElementById('graph');
   const P=readParams();
-  const SHOW=40;
+  // 90歳まで表示するため、計算した全てのデータを使用する
+  const SHOW = D.am.length; 
   const lbs=D.am.slice(0,SHOW).map(a=>a+'歳');
   const dk=matchMedia('(prefers-color-scheme:dark)').matches;
   const axC=dk?'#888':'#aaa', gC=dk?'#2a2a2a':'#ebebeb';
+  
   const baseOpt={
     responsive:true, maintainAspectRatio:false,
     animation:{duration:400,easing:'easeOutQuart'},
@@ -751,7 +758,8 @@ function renderGraphs(){
 
 function renderTable(){
   const P=readParams();
-  const SHOW=32;
+  // 90歳まで表示するため、計算した全てのデータを使用する
+  const SHOW = D.am.length;
   const rows=[
     {l:'家族代表収入',k:'incM',c:'tbl-pos'},
     {l:'配偶者収入',k:'incS',c:'tbl-pos'},
@@ -855,6 +863,8 @@ function recalcFromForm(){
 
 loadData();
 D=calc(readParams());
+// KPIボードを確実に表示
+document.getElementById('kpis').style.display = 'grid';
 renderKPI();
 renderGraphs();
 </script>
