@@ -21,11 +21,29 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;
   background:var(--bg);color:var(--ink);font-size:16px;min-height:100vh;
   -webkit-font-smoothing:antialiased;}
+
+/* ── ヘッダー ── */
 .app-header{display:flex;align-items:center;justify-content:space-between;
   padding:14px 20px;background:var(--card);border-bottom:.5px solid var(--bdr);gap:12px;}
 .header-left{flex-shrink:0}
 .header-title{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:.02em;line-height:1.2}
 .header-sub{font-size:11px;color:var(--hint);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+
+/* AIボタン */
+.header-right{display:flex;align-items:center;}
+.ai-copy-btn{
+  display:flex;align-items:center;gap:4px;
+  background:linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+  color:#1d1d1f; border:none; border-radius:20px;
+  padding:6px 14px; font-size:12px; font-weight:700;
+  cursor:pointer; box-shadow:0 2px 10px rgba(161,140,209,0.3);
+  transition:all 0.2s ease;
+}
+.ai-copy-btn:active{transform:scale(0.95);}
+.ai-copy-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+@media(prefers-color-scheme:dark){
+  .ai-copy-btn{background:linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); color:#000; box-shadow:0 2px 10px rgba(102,166,255,0.4);}
+}
 
 nav{background:var(--card);border-bottom:.5px solid var(--bdr);
   display:flex;justify-content:center;gap:0;position:sticky;top:0;z-index:100;
@@ -35,14 +53,15 @@ nav button{flex:1;max-width:140px;padding:14px 8px;font-size:14px;font-weight:60
   border-bottom:3px solid transparent;transition:all .2s ease;-webkit-tap-highlight-color:transparent}
 nav button.on{color:var(--acc);border-bottom-color:var(--acc)}
 
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px 20px 0}
-.kpi{background:var(--card);border-radius:var(--r);padding:16px 20px;box-shadow:var(--shadow);}
-.kpi-label{font-size:12px;color:var(--sub);margin-bottom:6px;font-weight:500;}
-.kpi-val{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-.kpi-note{font-size:11px;color:var(--hint);margin-top:6px;line-height:1.3}
+/* KPIボードのコンパクト化修正 */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 20px 0}
+.kpi{background:var(--card);border-radius:12px;padding:10px 14px;box-shadow:var(--shadow);}
+.kpi-label{font-size:11px;color:var(--sub);margin-bottom:2px;font-weight:600;}
+.kpi-val{font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi-note{font-size:10px;color:var(--hint);margin-top:2px;line-height:1.2}
 
 .pos{color:var(--grn)}.neg{color:var(--red)}.neu{color:var(--acc)}
-.alerts{padding:16px 20px 0}
+.alerts{padding:12px 20px 0}
 .alert-bar{background:var(--card);border-radius:10px;padding:10px 14px;font-size:12px;
   display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow);}
 .alert-row{display:flex;gap:6px;align-items:flex-start;line-height:1.4}
@@ -147,6 +166,12 @@ tr:hover td{background:var(--bg)}
   <div class="header-left">
     <div class="header-title">Kiyabu Family</div>
     <div class="header-sub">Life Planning Simulator</div>
+  </div>
+  <div class="header-right">
+    <button class="ai-copy-btn" id="ai-btn" onclick="copyForAI()">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      AIに相談
+    </button>
   </div>
 </header>
 
@@ -349,6 +374,60 @@ tr:hover td{background:var(--bg)}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+// ── AI相談用テキストのコピー機能 ──
+function copyForAI() {
+  const P = readParams();
+  const btn = document.getElementById('ai-btn');
+  
+  const text = `以下の条件で将来の家計シミュレーションを作成しています。この資金計画の安全性や、改善点についてプロのFPとしてアドバイスしてください。
+
+【基本情報】
+・家族代表：${P.ageMn}歳（退職予定${P.retireMn}歳）
+・配偶者：${P.ageSp}歳（退職予定${P.retireSp}歳）
+・子供：${P.ageC1}歳、${P.ageC2}歳
+
+【世帯年収の推移】
+・〜35歳: ${P.inc1}万
+・36〜41歳: ${P.inc2}万
+・42〜51歳: ${P.inc3}万
+・52〜59歳: ${P.inc4}万
+・60歳〜: ${P.inc5}万
+・配偶者年収: ${P.incSp}万（${P.startSp}歳〜）
+
+【住宅購入計画】
+・購入年齢: ${P.houseBuyAge}歳
+・初期費用/頭金: ${P.houseInitial}万円
+・ローン年間返済額: ${P.loanAnn}万円
+・住宅ローン控除: 年${P.loanDed}万円（${P.loanDedYrs}年間）
+
+【生活費・固定支出】
+・共通生活費（現在）: 月${P.food + P.daily + P.util}万円
+・子供自立後: 月${P.livingKidsMon}万円
+・老後: 月${P.livingOldMon}万円
+・車ローン: 月${P.carMonthly}万（${P.carCycle}年ごとに買い替え）
+
+【現在の資産】
+・預金: ${P.shortInit}万円
+・NISA: ${P.nisaInit}万円（毎月${P.nisaMon}万円積立・想定利回り${P.rateM*100}%）
+・iDeCo: ${P.iDeCoInit}万円（毎月${P.idecoMon}万円積立）
+
+よろしくお願いします。`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'コピー完了✓';
+    btn.style.background = 'var(--grn)';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  }).catch(err => {
+    alert('コピーに失敗しました。');
+  });
+}
+
 // ── ローン元金を逆算（元利均等）──
 function calcMaxLoan(annualPmt, years, annualRate){
   if(years<=0||annualPmt<=0)return 0;
@@ -456,7 +535,7 @@ function readParams(){
     insurAnn:g('p_insurAnn'),
     houseBuyAge:gi('p_houseBuyAge'),rentPre:g('p_rentPre'),
     houseInitial:g('p_houseInitial'),loanAnn:g('p_loanAnn'),
-    loanYears:gi('p_loanYears'),
+    loanYears:gi('p_loanYears'), 
     maint:g('p_maint'),
     loanDed:g('p_loanDed'), loanDedYrs:gi('p_loanDedYrs'),
     mexp,sexp,
@@ -518,7 +597,6 @@ function calcTaxShk(income, isEmployed, age){
 
 // ── メイン計算 ──
 function calc(P){
-  // 現在34歳として、90歳までは56年。57年分計算すれば確実に90歳までカバー
   const N=57,am=[],as=[],ac1=[],ac2=[],yr=[];
   for(let i=0;i<N;i++){
     yr.push(2026+i);am.push(P.ageMn+i);as.push(P.ageSp+i);
@@ -661,7 +739,8 @@ function renderKPI(){
   const t65c=t65>5000?'pos':t65>2000?'neu':'neg';
   const defC=defY===0?'pos':defY<5?'neu':'neg';
 
-  // KPIをタブ直下の .kpi-grid に描画（元のUIデザインを維持）
+  // KPIをタブ直下の .kpi-grid に描画（元のUIデザインを維持し、超コンパクト化）
+  document.getElementById('kpis').style.display = 'grid'; // 初期値がnoneのため表示をオン
   document.getElementById('kpis').innerHTML=`
     <div class="kpi">
       <div class="kpi-label">65歳 金融資産</div>
@@ -863,7 +942,6 @@ function recalcFromForm(){
 
 loadData();
 D=calc(readParams());
-// KPIボードを確実に表示
 document.getElementById('kpis').style.display = 'grid';
 renderKPI();
 renderGraphs();
