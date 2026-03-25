@@ -26,10 +26,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','N
 .header-left{flex-shrink:0}
 .header-title{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:.02em;line-height:1.2}
 .header-sub{font-size:10px;color:var(--hint);letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
-.header-right{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.hkpi{background:var(--bg);border-radius:8px;padding:5px 10px;text-align:right}
-.hkpi-l{font-size:9px;color:var(--hint);letter-spacing:.04em}
-.hkpi-v{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em;line-height:1.2}
+
+/* ヘッダー右側は非表示にし、kpi-gridを4列で表示 */
+.header-right{display:none;}
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:6px;
+  padding:12px 16px 4px;
+}
+.hkpi{
+  background:var(--card);
+  border:1px solid var(--bdr);
+  border-radius:8px;
+  padding:8px 2px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.hkpi-l{font-size:9px;color:var(--hint);letter-spacing:0;margin-bottom:2px;white-space:nowrap;}
+.hkpi-v{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;}
+
 nav{background:var(--card);border-bottom:.5px solid var(--bdr);
   display:flex;justify-content:center;gap:0;position:sticky;top:0;z-index:100;
   box-shadow:0 1px 10px rgba(0,0,0,.02);}
@@ -37,7 +53,7 @@ nav button{flex:1;max-width:140px;padding:14px 8px;font-size:14px;font-weight:60
   background:none;border:none;color:var(--sub);cursor:pointer;
   border-bottom:3px solid transparent;transition:all .2s ease;-webkit-tap-highlight-color:transparent}
 nav button.on{color:var(--acc);border-bottom-color:var(--acc)}
-.kpi-grid{display:none}
+
 .pos{color:var(--grn)}.neg{color:var(--red)}.neu{color:var(--acc)}
 .alerts{padding:8px 16px 0}
 .alert-bar{background:var(--card);border-radius:10px;padding:10px 14px;font-size:12px;
@@ -164,7 +180,6 @@ tr:hover td{background:var(--bg)}
     <div class="header-title">Kiyabu Family</div>
     <div class="header-sub">Life Planning Simulator</div>
   </div>
-  <div class="header-right" id="header-kpi"></div>
 </header>
 
 <nav>
@@ -412,7 +427,7 @@ buildFPList();
 
 // ── localStorage（エラーハンドリング付き） ──
 const LS_KEY='lifeplan_data';
-const LS_VER='v6'; // 月額対応でバージョンアップ
+const LS_VER='v7'; // UI変更でバージョンアップ
 function saveData(){
   try{
     const data={};
@@ -423,7 +438,7 @@ function saveData(){
 
 function loadData(){
   try{
-    ['','_v1','_v2','_v3','_v4','_v5'].forEach(v=>{
+    ['','_v1','_v2','_v3','_v4','_v5','_v6'].forEach(v=>{
       try{localStorage.removeItem(LS_KEY+v);}catch(e){}
     });
     const saved=localStorage.getItem(LS_KEY+'_'+LS_VER);
@@ -439,7 +454,7 @@ function loadData(){
 function resetData(){
   if(confirm('入力したデータをすべて初期値に戻しますか？')){
     try{
-      ['','_v1','_v2','_v3','_v4','_v5','_v6'].forEach(v=>{
+      ['','_v1','_v2','_v3','_v4','_v5','_v6','_v7'].forEach(v=>{
         localStorage.removeItem(LS_KEY+v);
       });
     }catch(e){}
@@ -776,7 +791,9 @@ function renderKPI(){
 
   const t65c=t65>5000?'pos':t65>2000?'neu':'neg';
   const defC=defY===0?'pos':defY<5?'neu':'neg';
-  document.getElementById('header-kpi').innerHTML=`
+  
+  // 出力先を kpis（タブ下の4列グリッド）に変更
+  document.getElementById('kpis').innerHTML=`
     <div class="hkpi"><div class="hkpi-l">65歳 資産</div><div class="hkpi-v ${t65c}">${fmt(t65)}</div></div>
     <div class="hkpi"><div class="hkpi-l">赤字年数</div><div class="hkpi-v ${defC}">${defY}年</div></div>
     <div class="hkpi"><div class="hkpi-l">生活ベース</div><div class="hkpi-v neu">${pA>0?fmt(pA):'—'}</div></div>
@@ -786,9 +803,9 @@ function renderKPI(){
   if(minS<0) rows.push(`<div class="alert-row alert-r"><span class="alert-dot dot-r"></span>預金残高が最低 ${fmt(minS)} になる年があります。積立の増額や支出削減を検討してください</div>`);
   if(t65>8000) rows.push(`<div class="alert-row alert-g"><span class="alert-dot dot-g"></span>65歳時の資産 ${fmt(t65)} は十分な水準です</div>`);
   if(pA>0&&pB>0) rows.push(`<div class="alert-row ${gap>0?'alert-a':'alert-g'}"><span class="alert-dot ${gap>0?'dot-a':'dot-g'}"></span>${gapMsg}（生活: ${fmt(pA)} ／ 年収比: ${fmt(pB)}）</div>`);
+  
   document.getElementById('alerts').innerHTML=rows.length
     ?`<div class="alert-bar">${rows.join('')}</div>`:'';
-  document.getElementById('kpis').innerHTML='';
 }
 
 // ── グラフ描画 ──
