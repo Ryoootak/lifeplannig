@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ライフプランシミュレーター</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a1a;--sub:#666;--hint:#999;
+  --bg:#ffffff;--surf:#f5f5f5;--bdr:rgba(0,0,0,.1);--bdr2:rgba(0,0,0,.2);
+  --grn:#2a7a4b;--grn-bg:#edf7f1;--red:#b83232;--red-bg:#fdf0f0;--blue:#1a5fa8;--blue-bg:#eef4fc;
+  --r-md:8px;--r-lg:12px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --ink:#e8e8e8;--sub:#999;--hint:#666;
+  --bg:#1a1a1a;--surf:#252525;--bdr:rgba(255,255,255,.1);--bdr2:rgba(255,255,255,.2);
+  --grn:#4aaa6b;--grn-bg:#0d2b1a;--red:#e06060;--red-bg:#2b0d0d;--blue:#5b9ee8;--blue-bg:#0d1e2b;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;
+  color:var(--ink);background:var(--bg);font-size:15px;line-height:1.5;min-height:100vh}
+.wrap{max-width:480px;margin:0 auto;padding:16px 16px 60px}
+.app-title{font-size:14px;font-weight:500;color:var(--sub);letter-spacing:.04em;margin-bottom:16px;padding-bottom:12px;border-bottom:.5px solid var(--bdr)}
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.kpi{background:var(--surf);border-radius:var(--r-md);padding:12px 14px}
+.kpi-l{font-size:11px;color:var(--hint);margin-bottom:3px;letter-spacing:.03em}
+.kpi-v{font-size:22px;font-weight:500;font-family:'DM Mono','SF Mono','Courier New',monospace;letter-spacing:-.02em;line-height:1.1}
+.kpi-s{font-size:11px;color:var(--hint);margin-top:2px}
+.pos{color:var(--grn)}.neg{color:var(--red)}.neu{color:var(--blue)}
+.alert{font-size:12px;padding:9px 12px;border-radius:var(--r-md);margin-bottom:12px;border:.5px solid}
+.alert-w{background:var(--red-bg);color:var(--red);border-color:var(--red)}
+.alert-o{background:var(--grn-bg);color:var(--grn);border-color:var(--grn)}
+.seg{display:flex;border-bottom:.5px solid var(--bdr);margin-bottom:16px}
+.sg{flex:1;padding:10px 4px;font-size:12px;font-weight:500;color:var(--hint);text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
+.sg.on{color:var(--ink);border-bottom-color:var(--ink)}
+.card{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:12px}
+.sec-label{font-size:10px;font-weight:500;color:var(--hint);letter-spacing:.06em;text-transform:uppercase;margin:16px 0 10px}
+.sec-label:first-child{margin-top:0}
+.chart-wrap{position:relative;width:100%;height:190px;margin-bottom:4px}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--sub)}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.field{margin-bottom:14px}
+.field-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.field-lbl{font-size:13px;color:var(--ink)}
+.field-val{font-size:13px;font-weight:500;font-family:'DM Mono','SF Mono','Courier New',monospace;color:var(--ink)}
+input[type=range]{width:100%;cursor:pointer;height:4px;accent-color:var(--ink)}
+.fp-card{border:.5px solid var(--bdr);border-radius:var(--r-md);padding:12px;margin-bottom:10px}
+.fp-name{font-size:13px;font-weight:500;margin-bottom:10px}
+.cyc-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.cyc{padding:4px 9px;border-radius:4px;font-size:11px;cursor:pointer;
+  border:.5px solid var(--bdr2);color:var(--sub);background:transparent;
+  transition:all .12s;font-family:'DM Mono','SF Mono',monospace;-webkit-tap-highlight-color:transparent}
+.cyc.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:11px;font-family:'DM Mono','SF Mono','Courier New',monospace;min-width:700px}
+th{padding:5px 8px;text-align:right;color:var(--hint);font-weight:500;border-bottom:.5px solid var(--bdr);white-space:nowrap;background:var(--bg);position:sticky;top:0;z-index:1}
+th:first-child{text-align:left}
+td{padding:4px 8px;text-align:right;border-bottom:.5px solid var(--bdr);color:var(--ink)}
+td:first-child{text-align:left;color:var(--sub);white-space:nowrap}
+tr:hover td{background:var(--surf)}
+.tn{color:var(--grn)}.tr{color:var(--red)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="app-title">ライフプランシミュレーター</div>
+  <div class="kpi-row" id="kpis"></div>
+  <div id="alerts"></div>
+  <div class="seg" id="mseg">
+    <div class="sg on" data-v="グラフ">グラフ</div>
+    <div class="sg" data-v="収支表">収支表</div>
+    <div class="sg" data-v="設定">設定</div>
+  </div>
+  <div id="main-area"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const P={
+  ageMn:34,ageSp:34,ageC1:5,ageC2:0,
+  retireMn:70,retireSp:64,pensionStart:65,
+  inc1:1100,inc2:1135,inc3:1172,inc4:1329,inc5:800,incSp:120,
+  allowC1:12,allowC2:12,
+  livingNow:140,livingOld:225,loanAnn:187,maint:60,
+  costMn:79,costSp:41,costFam:145,insurAnn:7,
+  shortInit:121,nisaInit:520,iDeCoInit:463,
+  nisaMon:5,idecoMon:0.9,rateM:3.5,rateL:3.0,
+  penMkiso:74,penMkose:197,penSkiso:74,penSkose:11,dcCorp:955,
+  c1Yochi:0,c1Shou:96,c1Chu:210,c1Koko:451,c1Dai:1105,c1Wed:200,
+  c2Yochi:0,c2Shou:96,c2Chu:210,c2Koko:451,c2Dai:1208,c2Wed:200,
+  fp1amt:30,fp1s:34,fp1e:69,fp1c:1,
+  fp2amt:20,fp2s:34,fp2e:81,fp2c:1,
+  fp3amt:300,fp3s:36,fp3e:62,fp3c:13,
+  fp4amt:80,fp4s:39,fp4e:47,fp4c:0,
+  fp5amt:400,fp5s:69,fp5e:69,fp5c:0,
+};
+
+function calc(){
+  const N=57,am=[],as=[],ac1=[],ac2=[],yr=[];
+  for(let i=0;i<N;i++){yr.push(2026+i);am.push(P.ageMn+i);as.push(P.ageSp+i);
+    ac1.push(Math.max(P.ageC1+i,0));ac2.push(Math.max(P.ageC2+i,0));}
+  const rm=P.rateM/100,rl=P.rateL/100;
+  const incM=am.map(a=>a>P.retireMn?0:a>=60?P.inc5:a>=52?P.inc4:a>=42?P.inc3:a>=36?P.inc2:P.inc1);
+  const incS=as.map(a=>(a>=41&&a<=P.retireSp)?P.incSp:0);
+  const penM=am.map(a=>a>=P.pensionStart?P.penMkiso+P.penMkose:0);
+  const penS=as.map(a=>a>=P.pensionStart?P.penSkiso+P.penSkose:0);
+  const allow=ac1.map((c1,i)=>(c1>=0&&c1<=18?P.allowC1:0)+(ac2[i]>=0&&ac2[i]<=18?P.allowC2:0));
+  const eduF=(ag,p)=>ag.map(a=>a>=4&&a<=6?p.y/3:a>=7&&a<=12?p.s/6:a>=13&&a<=15?p.c/3:a>=16&&a<=18?p.k/3:a>=19&&a<=22?p.d/4:0);
+  const e1=eduF(ac1,{y:P.c1Yochi,s:P.c1Shou,c:P.c1Chu,k:P.c1Koko,d:P.c1Dai});
+  const e2=eduF(ac2,{y:P.c2Yochi,s:P.c2Shou,c:P.c2Chu,k:P.c2Koko,d:P.c2Dai});
+  const w1=ac1.map(a=>a===29?P.c1Wed:0),w2=ac2.map(a=>a===31?P.c2Wed:0);
+  const edu=e1.map((v,i)=>Math.round(v+e2[i]+w1[i]+w2[i]));
+  const fps=[{a:P.fp1amt,s:P.fp1s,e:P.fp1e,c:P.fp1c},{a:P.fp2amt,s:P.fp2s,e:P.fp2e,c:P.fp2c},
+    {a:P.fp3amt,s:P.fp3s,e:P.fp3e,c:P.fp3c},{a:P.fp4amt,s:P.fp4s,e:P.fp4e,c:P.fp4c},
+    {a:P.fp5amt,s:P.fp5s,e:P.fp5e,c:P.fp5c}];
+  const fp=am.map(a=>fps.reduce((s,ev)=>ev.c===0?s+(a===ev.s?ev.a:0):a>=ev.s&&a<=ev.e&&(a-ev.s)%ev.c===0?s+ev.a:s,0));
+  const liv=am.map(a=>a>=P.pensionStart?P.livingOld:P.livingNow);
+  const hou=am.map(a=>a<=33?166:a<=68?P.loanAnn+P.maint:P.maint);
+  const cM=am.map(a=>a<=P.retireMn?P.costMn:Math.round(P.costMn*.4));
+  const cS=as.map(a=>a<=P.retireSp?P.costSp:Math.round(P.costSp*.4));
+  const inv=am.map(a=>a<=P.retireMn?(P.nisaMon+P.idecoMon)*12:0);
+  const tax=am.map((a,i)=>a>P.retireMn?Math.round((penM[i]+penS[i])*.05):Math.round(incM[i]*.085));
+  const shk=am.map((a,i)=>a>P.retireMn?Math.round((penM[i]+penS[i])*.15):Math.round(Math.min(154+i,175)));
+  const ins=am.map(a=>a<=65?P.insurAnn:0);
+  let lp=P.iDeCoInit,sp=P.shortInit,mp=P.nisaInit;
+  const irecv=[],na=[],ia=[],sa=[],ta=[];
+  for(let i=0;i<N;i++){
+    const a=am[i],fl=a<=P.retireMn;
+    if(a>=P.pensionStart){irecv.push(Math.round(lp*(1+rl))+P.dcCorp);ia.push(0);lp=0;}
+    else{irecv.push(0);const nl=Math.round((lp+(fl?P.idecoMon*12:0))*(1+rl));ia.push(nl);lp=nl;}
+    const nm=Math.round((mp+(fl?P.nisaMon*12:0))*(1+rm));na.push(nm);mp=nm;
+    const inc=incM[i]+penM[i]+penS[i]+irecv[i]+incS[i]+allow[i];
+    const exp=liv[i]+hou[i]+edu[i]+fp[i]+cM[i]+cS[i]+P.costFam+inv[i]+ins[i]+tax[i]+shk[i];
+    const ns=sp+(inc-exp);sa.push(ns);sp=ns;
+    ta.push(ns+nm+ia[i]);
+  }
+  const incA=am.map((_,i)=>incM[i]+penM[i]+penS[i]+irecv[i]+incS[i]+allow[i]);
+  const expA=am.map((_,i)=>liv[i]+hou[i]+edu[i]+fp[i]+cM[i]+cS[i]+P.costFam+inv[i]+ins[i]+tax[i]+shk[i]);
+  return{yr,am,as,ac1,ac2,incM,penM,penS,irecv,incS,allow,liv,hou,edu,fp,inv,
+    nisa:na,ideco:ia,short:sa,total:ta,incA,expA,bal:incA.map((v,i)=>v-expA[i])};
+}
+
+const fmt=n=>{if(n==null)return'—';const a=Math.abs(Math.round(n));
+  const s=a>=10000?(a/10000).toFixed(1)+'億':a>=1000?(a/1000).toFixed(1)+'千万':a+'万';
+  return n<0?'-'+s:s;};
+
+let D=calc(),curSeg='グラフ',curSet='収入';
+let ch1=null,ch2=null;
+
+function findAge(a){return D.am.findIndex(x=>x===a);}
+
+function renderKPI(){
+  const i65=findAge(65),i60=findAge(60);
+  const t65=i65>=0?D.total[i65]:0,minS=Math.min(...D.short);
+  const defY=D.bal.filter(b=>b<0).length,n60=i60>=0?D.nisa[i60]:0;
+  document.getElementById('kpis').innerHTML=`
+    <div class="kpi"><div class="kpi-l">65歳 金融資産</div>
+      <div class="kpi-v ${t65>5000?'pos':t65>2000?'neu':'neg'}">${fmt(t65)}</div>
+      <div class="kpi-s">NISA+iDeCo+預金</div></div>
+    <div class="kpi"><div class="kpi-l">収支赤字 年数</div>
+      <div class="kpi-v ${defY===0?'pos':defY<5?'neu':'neg'}">${defY}年</div>
+      <div class="kpi-s">年間収支がマイナス</div></div>
+    <div class="kpi"><div class="kpi-l">預金 最低残高</div>
+      <div class="kpi-v ${minS>=0?'pos':'neg'}">${fmt(minS)}</div>
+      <div class="kpi-s">現役中の底値</div></div>
+    <div class="kpi"><div class="kpi-l">NISA 60歳残高</div>
+      <div class="kpi-v pos">${fmt(n60)}</div>
+      <div class="kpi-s">月${P.nisaMon}万 × ${Number(P.rateM).toFixed(1)}%複利</div></div>`;
+  let al='';
+  if(minS<0)al+=`<div class="alert alert-w">預金残高がマイナスになる年があります（底値 ${fmt(minS)}）</div>`;
+  if(t65>8000)al+=`<div class="alert alert-o">65歳時の資産 ${fmt(t65)} は十分な水準です</div>`;
+  document.getElementById('alerts').innerHTML=al;
+}
+
+function renderGraphs(){
+  const SHOW=36,lbs=D.am.slice(0,SHOW).map((a,i)=>i%4===0?a+'歳':'');
+  const dk=matchMedia('(prefers-color-scheme:dark)').matches;
+  const axC=dk?'#555':'#aaa',gC=dk?'#2a2a2a':'#f0f0f0';
+  const baseOpts={responsive:true,maintainAspectRatio:false,animation:{duration:150},
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{
+      backgroundColor:dk?'#1a1a1a':'#fff',titleColor:dk?'#ccc':'#555',
+      bodyColor:dk?'#eee':'#222',borderColor:dk?'#333':'#ddd',borderWidth:1,
+      callbacks:{label:c=>` ${c.dataset.label}: ${Math.round(c.raw).toLocaleString()}万`}}},
+    scales:{x:{ticks:{color:axC,font:{size:9}},grid:{color:gC}},
+      y:{ticks:{color:axC,font:{size:9},callback:v=>v===0?'0':Math.round(v/100)*100},grid:{color:gC}}}};
+  if(ch1){ch1.destroy();ch1=null}
+  if(ch2){ch2.destroy();ch2=null}
+  ch1=new Chart(document.getElementById('c1'),{type:'bar',data:{labels:lbs,datasets:[
+    {label:'収入',data:D.incA.slice(0,SHOW),backgroundColor:'rgba(50,100,200,.4)',order:2},
+    {label:'支出',data:D.expA.slice(0,SHOW),backgroundColor:'rgba(180,50,50,.35)',order:3},
+    {label:'収支',data:D.bal.slice(0,SHOW),type:'line',borderColor:dk?'#4aaa6b':'#2a7a4b',
+      backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,order:1}
+  ]},options:{...baseOpts}});
+  ch2=new Chart(document.getElementById('c2'),{type:'bar',data:{labels:lbs,datasets:[
+    {label:'NISA',data:D.nisa.slice(0,SHOW),backgroundColor:'rgba(30,140,90,.5)',stack:'s'},
+    {label:'iDeCo',data:D.ideco.slice(0,SHOW),backgroundColor:'rgba(50,100,200,.45)',stack:'s'},
+    {label:'預金',data:D.short.slice(0,SHOW).map(v=>Math.max(v,0)),backgroundColor:'rgba(120,120,120,.3)',stack:'s'},
+    {label:'合計',data:D.total.slice(0,SHOW),type:'line',borderColor:dk?'#aaa':'#444',
+      borderWidth:1.5,pointRadius:0,fill:false}
+  ]},options:{...baseOpts,scales:{...baseOpts.scales,
+    x:{...baseOpts.scales.x,stacked:true},y:{...baseOpts.scales.y,stacked:true}}}});
+}
+
+function renderTable(){
+  const SHOW=32;
+  const rows=[
+    {l:'家族代表収入',k:'incM',c:'tn'},{l:'配偶者収入',k:'incS',c:'tn'},
+    {l:'公的年金',k:'penM',c:'tn'},{l:'iDeCo受取',k:'irecv',c:'tn'},
+    {l:'生活費',k:'liv',c:'tr'},{l:'住宅',k:'hou',c:'tr'},
+    {l:'教育費',k:'edu',c:'tr'},{l:'将来プラン',k:'fp',c:'tr'},
+    {l:'NISA残高',k:'nisa',c:'tn'},{l:'iDeCo残高',k:'ideco',c:'tn'},
+    {l:'金融資産計',k:'total',c:''},
+  ];
+  const ths=D.am.slice(0,SHOW).map((a,i)=>`<th style="${a===65?'color:var(--grn)':a>=P.pensionStart?'color:var(--blue)':''}">${a}<br><span style="font-size:9px;opacity:.5">'${String(D.yr[i]).slice(2)}</span></th>`).join('');
+  const trs=rows.map(r=>{
+    const tds=D[r.k].slice(0,SHOW).map(v=>`<td class="${v<0?'tr':v>0&&r.c?r.c:''}">${v===0?'—':Math.round(v).toLocaleString()}</td>`).join('');
+    return`<tr><td>${r.l}</td>${tds}</tr>`;
+  }).join('');
+  const bals=D.bal.slice(0,SHOW).map(v=>`<td class="${v<0?'tr':'tn'}" style="font-weight:500">${Math.round(v).toLocaleString()}</td>`).join('');
+  return`<div class="card" style="padding:0"><div class="tbl-scroll">
+    <table><thead><tr><th style="min-width:90px">項目</th>${ths}</tr></thead>
+    <tbody>${trs}<tr style="background:var(--surf)"><td style="font-weight:500">年度別収支</td>${bals}</tr></tbody></table>
+  </div></div>`;
+}
+
+function fld(lbl,key,min,max,step,disp){
+  const v=P[key];
+  const dv=disp?disp(v):(Number.isInteger(v)?v:Number(v).toFixed(1));
+  return`<div class="field">
+    <div class="field-head"><span class="field-lbl">${lbl}</span>
+      <span class="field-val" id="fv_${key}">${dv}</span></div>
+    <input type="range" min="${min}" max="${max}" step="${step||1}" value="${v}"
+      oninput="P['${key}']=parseFloat(this.value);D=calc();refresh();
+      document.getElementById('fv_${key}').textContent=${disp?`(${disp.toString()})(parseFloat(this.value))`:`this.value`}">
+  </div>`;
+}
+
+const SETS=['収入','支出','資産','教育費','将来プラン'];
+
+function renderSettings(){
+  let h=`<div class="seg" id="sseg" style="margin-bottom:12px">${SETS.map(s=>`<div class="sg${s===curSet?' on':''}" data-sv="${s}">${s}</div>`).join('')}</div>`;
+  if(curSet==='収入'){
+    h+=`<div class="card">
+      <div class="sec-label">基本情報</div>
+      ${fld('家族代表 現在年齢','ageMn',25,55,1)}
+      ${fld('退職年齢','retireMn',55,75,1)}
+      ${fld('年金開始年齢','pensionStart',60,70,1)}
+      <div class="sec-label">家族代表 年収（万円/年）</div>
+      ${fld('①〜35歳','inc1',300,2000,10)}
+      ${fld('②36〜41歳','inc2',300,2000,10)}
+      ${fld('③42〜51歳','inc3',300,2000,10)}
+      ${fld('④52〜59歳','inc4',300,2500,10)}
+      ${fld('⑤60〜退職','inc5',0,1500,10)}
+      <div class="sec-label">配偶者（41歳〜退職）</div>
+      ${fld('年収','incSp',0,500,10)}
+      ${fld('退職年齢','retireSp',50,70,1)}
+    </div>
+    <div class="card">
+      <div class="sec-label">公的年金（万円/年）</div>
+      ${fld('家族代表 基礎年金','penMkiso',30,80,1)}
+      ${fld('家族代表 厚生年金','penMkose',50,300,5)}
+      ${fld('配偶者 基礎年金','penSkiso',30,80,1)}
+      ${fld('配偶者 厚生年金','penSkose',0,100,1)}
+    </div>`;
+  } else if(curSet==='支出'){
+    h+=`<div class="card">
+      <div class="sec-label">生活費（万円/年）</div>
+      ${fld('現役中','livingNow',60,300,5)}
+      ${fld('老後（65歳〜）','livingOld',60,300,5)}
+      <div class="sec-label">住宅</div>
+      ${fld('ローン年間返済','loanAnn',50,400,5)}
+      ${fld('維持費（年間）','maint',0,150,5)}
+      <div class="sec-label">固有支出（万円/年）</div>
+      ${fld('本人','costMn',0,200,5)}
+      ${fld('配偶者','costSp',0,200,5)}
+      ${fld('家族共通','costFam',0,300,5)}
+      ${fld('保険料合計','insurAnn',0,50,1)}
+    </div>`;
+  } else if(curSet==='資産'){
+    h+=`<div class="card">
+      <div class="sec-label">現在の残高（万円）</div>
+      ${fld('普通預金','shortInit',0,1000,10)}
+      ${fld('NISA 残高','nisaInit',0,3000,10)}
+      ${fld('iDeCo 残高','iDeCoInit',0,3000,10)}
+      <div class="sec-label">毎月の積立（万円/月）</div>
+      ${fld('NISA 月額','nisaMon',0,20,0.5,v=>`${v}万/月`)}
+      ${fld('iDeCo 月額','idecoMon',0,5,0.1,v=>`${Number(v).toFixed(1)}万/月`)}
+      <div class="sec-label">想定利率（%）</div>
+      ${fld('NISA 運用利率','rateM',0,10,0.1,v=>`${Number(v).toFixed(1)}%`)}
+      ${fld('iDeCo 運用利率','rateL',0,10,0.1,v=>`${Number(v).toFixed(1)}%`)}
+      ${fld('企業型DC 受取（万）','dcCorp',0,2000,50)}
+    </div>`;
+  } else if(curSet==='教育費'){
+    h+=`<div class="card"><div class="sec-label">お子様1（在学中の総費用・万円）</div>
+      ${fld('幼稚園 3年計','c1Yochi',0,150,5)}${fld('小学校 6年計','c1Shou',0,500,10)}
+      ${fld('中学校 3年計','c1Chu',0,600,10)}${fld('高校 3年計','c1Koko',0,700,10)}
+      ${fld('大学 4年計','c1Dai',0,2500,50)}${fld('結婚援助','c1Wed',0,500,10)}
+    </div>
+    <div class="card"><div class="sec-label">お子様2（在学中の総費用・万円）</div>
+      ${fld('幼稚園 3年計','c2Yochi',0,150,5)}${fld('小学校 6年計','c2Shou',0,500,10)}
+      ${fld('中学校 3年計','c2Chu',0,600,10)}${fld('高校 3年計','c2Koko',0,700,10)}
+      ${fld('大学 4年計','c2Dai',0,2500,50)}${fld('結婚援助','c2Wed',0,500,10)}
+    </div>`;
+  } else {
+    const names=['家族旅行','国内旅行','自動車買い替え','習い事・塾','大規模修繕'];
+    for(let n=1;n<=5;n++){
+      const cycs=[0,1,2,3,5,10,13];
+      const btns=cycs.map(c=>`<button class="cyc${P['fp'+n+'c']===c?' on':''}"
+        onclick="P['fp${n}c']=${c};D=calc();refresh();renderMain()">${c===0?'一回':c===1?'毎年':c+'年毎'}</button>`).join('');
+      h+=`<div class="fp-card">
+        <div class="fp-name">${names[n-1]}</div>
+        ${fld('金額（万円）','fp'+n+'amt',0,1000,10)}
+        <div class="two-col">${fld('開始年齢','fp'+n+'s',30,89,1)}${fld('終了年齢','fp'+n+'e',30,89,1)}</div>
+        <div class="field-head" style="margin-top:6px"><span class="field-lbl">サイクル</span></div>
+        <div class="cyc-row">${btns}</div>
+      </div>`;
+    }
+  }
+  return h;
+}
+
+function renderMain(){
+  const ma=document.getElementById('main-area');
+  if(curSeg==='グラフ'){
+    ma.innerHTML=`
+      <div class="card">
+        <div class="leg">
+          <span class="li"><span class="ld" style="background:rgba(50,100,200,.5)"></span>収入</span>
+          <span class="li"><span class="ld" style="background:rgba(180,50,50,.4)"></span>支出</span>
+          <span class="li"><span class="ld" style="background:#2a7a4b"></span>収支</span>
+        </div>
+        <div class="chart-wrap"><canvas id="c1"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="leg">
+          <span class="li"><span class="ld" style="background:rgba(30,140,90,.55)"></span>NISA</span>
+          <span class="li"><span class="ld" style="background:rgba(50,100,200,.5)"></span>iDeCo</span>
+          <span class="li"><span class="ld" style="background:rgba(120,120,120,.35)"></span>預金</span>
+          <span class="li"><span class="ld" style="background:#555"></span>合計</span>
+        </div>
+        <div class="chart-wrap"><canvas id="c2"></canvas></div>
+      </div>`;
+    renderGraphs();
+  } else if(curSeg==='収支表'){
+    ma.innerHTML=renderTable();
+  } else {
+    ma.innerHTML=renderSettings();
+    document.getElementById('sseg').addEventListener('click',e=>{
+      const sv=e.target.dataset.sv;if(!sv||sv===curSet)return;
+      curSet=sv;renderMain();
+    });
+  }
+}
+
+function refresh(){renderKPI();renderMain();}
+
+document.getElementById('mseg').addEventListener('click',e=>{
+  const v=e.target.dataset.v;if(!v||v===curSeg)return;
+  curSeg=v;
+  document.querySelectorAll('#mseg .sg').forEach(x=>x.className='sg'+(x.dataset.v===v?' on':''));
+  renderMain();
+});
+
+renderKPI();
+renderMain();
+</script>
+</body>
+</html>
