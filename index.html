@@ -21,40 +21,78 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;
   background:var(--bg);color:var(--ink);font-size:16px;min-height:100vh;
   -webkit-font-smoothing:antialiased;}
+.app-header{display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;background:var(--card);border-bottom:.5px solid var(--bdr);gap:12px;}
+.header-left{flex-shrink:0}
+.header-title{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:.02em;line-height:1.2}
+.header-sub{font-size:10px;color:var(--hint);letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
 
-/* ── ヘッダー ── */
-.app-header {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 14px 20px; background: var(--card); color: var(--ink);
-  font-weight: 600; font-size: 16px; letter-spacing: 0.04em;
-  border-bottom: 0.5px solid var(--bdr);
+/* ヘッダー右側は非表示にし、kpi-gridを4列で表示 */
+.header-right{display:none;}
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:6px;
+  padding:12px 16px 4px;
 }
-.header-icon { color: var(--acc); flex-shrink: 0; }
+.hkpi{
+  background:var(--card);
+  border:1px solid var(--bdr);
+  border-radius:8px;
+  padding:8px 2px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.hkpi-l{font-size:9px;color:var(--hint);letter-spacing:0;margin-bottom:2px;white-space:nowrap;}
+.hkpi-v{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;}
 
-/* ── ナビ ── */
-nav{background:var(--card);border-bottom:0.5px solid var(--bdr);
+nav{background:var(--card);border-bottom:.5px solid var(--bdr);
   display:flex;justify-content:center;gap:0;position:sticky;top:0;z-index:100;
-  box-shadow:0 1px 10px rgba(0,0,0,0.02);}
+  box-shadow:0 1px 10px rgba(0,0,0,.02);}
 nav button{flex:1;max-width:140px;padding:14px 8px;font-size:14px;font-weight:600;
   background:none;border:none;color:var(--sub);cursor:pointer;
   border-bottom:3px solid transparent;transition:all .2s ease;-webkit-tap-highlight-color:transparent}
 nav button.on{color:var(--acc);border-bottom-color:var(--acc)}
 
-/* ── KPI ── */
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px 20px 0}
-.kpi{background:var(--card);border-radius:var(--r);padding:16px 20px;box-shadow:var(--shadow);}
-.kpi-label{font-size:12px;color:var(--sub);margin-bottom:6px;font-weight:500;}
-.kpi-val{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-.kpi-note{font-size:11px;color:var(--hint);margin-top:6px;line-height:1.3}
 .pos{color:var(--grn)}.neg{color:var(--red)}.neu{color:var(--acc)}
+.alerts{padding:8px 16px 0}
+.alert-bar{background:var(--card);border-radius:10px;padding:10px 14px;font-size:12px;
+  display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow);}
+.alert-row{display:flex;gap:6px;align-items:flex-start;line-height:1.4}
+.alert-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.dot-r{background:var(--red)}.dot-g{background:var(--grn)}.dot-a{background:var(--amber)}
+.alert-r{color:var(--red-t)}
+@media(prefers-color-scheme:dark){.alert-r{color:var(--red)}}
+.alert-g{color:var(--grn-t)}
+@media(prefers-color-scheme:dark){.alert-g{color:var(--grn)}}
+.alert-a{color:#7a4800}
+@media(prefers-color-scheme:dark){.alert-a{color:var(--amber)}}
+.dirty-banner{background:rgba(255,149,0,.15);color:#7a4800;border-radius:12px;
+  padding:10px 16px;margin:10px 20px 0;font-size:13px;font-weight:500;display:none;
+  align-items:center;justify-content:space-between;gap:12px;}
+@media(prefers-color-scheme:dark){.dirty-banner{color:var(--amber)}}
+.dirty-banner.show{display:flex}
+.dirty-banner button{background:var(--amber);color:#fff;border:none;border-radius:8px;
+  padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0;}
 
-.alerts{padding:16px 20px 0}
-.alert{padding:12px 16px;border-radius:12px;font-size:13px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start;font-weight:500;}
-.alert-r{background:rgba(255,59,48,.1);color:var(--red-t)}@media(prefers-color-scheme:dark){.alert-r{color:var(--red)}}
-.alert-g{background:rgba(52,199,89,.1);color:var(--grn-t)}@media(prefers-color-scheme:dark){.alert-g{color:var(--grn)}}
-.alert-icon{font-size:16px;flex-shrink:0;line-height:1}
+/* 物件予算目安バナーのスタイル */
+.budget-banner {
+  background: linear-gradient(135deg, var(--acc), #5b9ee8);
+  color: #fff;
+  border-radius: var(--r);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(0,122,255,0.2);
+}
+@media(prefers-color-scheme:dark){
+  .budget-banner { background: linear-gradient(135deg, #0a84ff, #005bb5); }
+}
+.bb-title { font-size: 13px; font-weight: 600; opacity: 0.9; margin-bottom: 6px; }
+.bb-main { font-size: 32px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+.bb-main span { font-size: 16px; font-weight: 500; opacity: 0.9;}
+.bb-details { font-size: 14px; font-weight: 500; opacity: 0.95; line-height: 1.5; background: rgba(0,0,0,0.15); padding: 10px 14px; border-radius: 10px;}
+.bb-note { font-size: 11px; opacity: 0.7; margin-top: 10px; line-height: 1.4;}
 
-/* ── グラフ ── */
 .chart-page{padding:20px}
 .chart-card{background:var(--card);border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
 .chart-title{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:16px}
@@ -62,97 +100,86 @@ nav button.on{color:var(--acc);border-bottom-color:var(--acc)}
 .legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
 .leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--sub);font-weight:500;}
 .leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
-
-/* ── 収支表 ── */
 .tbl-page{padding:20px}
 .tbl-card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
 .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;font-size:12px;min-width:720px;
-  font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:720px;font-variant-numeric:tabular-nums}
 th{padding:10px 12px;text-align:right;color:var(--sub);font-weight:600;
   border-bottom:1px solid var(--bdr);white-space:nowrap;background:var(--card)}
 th:first-child{text-align:left;position:sticky;left:0;background:var(--card);z-index:1}
-td{padding:8px 12px;text-align:right;border-bottom:0.5px solid var(--bdr);color:var(--ink)}
+td{padding:8px 12px;text-align:right;border-bottom:.5px solid var(--bdr);color:var(--ink)}
 td:first-child{text-align:left;color:var(--sub);white-space:nowrap;
   position:sticky;left:0;background:var(--card);font-weight:500;}
 tr:hover td{background:var(--bg)}
 .tbl-pos{color:var(--grn)}.tbl-neg{color:var(--red)}
 .tbl-bal td{font-weight:700;background:var(--bg);padding:12px}
 .tbl-bal td:first-child{background:var(--bg)}
-
-/* ── 設定フォーム ── */
-.settings-page{padding:20px 20px 80px}
+.settings-page{padding:20px 20px 100px}
 .settings-group{background:var(--card);border-radius:var(--r);margin-bottom:28px;overflow:hidden;box-shadow:var(--shadow);}
 .group-header{padding:18px 20px 14px;border-bottom:1px solid var(--bdr)}
 .group-title{font-size:16px;font-weight:600;color:var(--ink)}
 .group-desc{font-size:13px;color:var(--sub);margin-top:6px;line-height:1.5}
-
-.field-row{padding:14px 20px;border-bottom:0.5px solid var(--bdr);display:flex;align-items:flex-start;gap:16px}
+.field-row{padding:14px 20px;border-bottom:.5px solid var(--bdr);display:flex;align-items:flex-start;gap:16px}
 .field-row:last-child{border-bottom:none}
 .field-info{flex:1;min-width:0;padding-top:4px}
 .field-name{font-size:15px;color:var(--ink);font-weight:500;line-height:1.4}
 .field-desc{font-size:12px;color:var(--sub);margin-top:4px;line-height:1.5}
 .field-input{flex-shrink:0;display:flex;align-items:center;gap:8px}
 .field-input input[type=number]{
-  width:96px;padding:10px 12px;border:1px solid var(--bdr);border-radius:10px;
+  width:88px;padding:8px 10px;border:1px solid var(--bdr);border-radius:10px;
   font-size:16px;font-weight:600;color:var(--ink);background:var(--bg);
   text-align:right;-moz-appearance:textfield;font-variant-numeric:tabular-nums;
-  -webkit-appearance:none;transition:all .2s;}
+  -webkit-appearance:none;transition:border-color .2s,box-shadow .2s;}
 .field-input input[type=number]::-webkit-inner-spin-button,
 .field-input input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-.field-input input[type=number]:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,122,255,0.2);background:var(--card);}
-.field-unit{font-size:14px;color:var(--sub);white-space:nowrap;min-width:24px;font-weight:500;}
-
-/* 将来プラン専用 */
-.fp-item{padding:16px 20px;border-bottom:0.5px solid var(--bdr)}
+.field-input input[type=number]:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,122,255,.15);background:var(--card);}
+.field-unit{font-size:14px;color:var(--sub);white-space:nowrap;font-weight:500;}
+.fp-item{padding:16px 20px;border-bottom:.5px solid var(--bdr)}
 .fp-item:last-child{border-bottom:none}
-.fp-name{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:12px}
+.fp-name-row{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.fp-name-input{flex:1;padding:8px 12px;border:1px solid var(--bdr);border-radius:8px;
+  font-size:14px;font-weight:600;color:var(--ink);background:var(--bg);transition:all .2s;}
+.fp-name-input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,122,255,.15);background:var(--card);}
 .fp-fields{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
 .fp-field label{font-size:12px;color:var(--sub);display:block;margin-bottom:6px;font-weight:500;}
 .fp-field input{width:100%;padding:8px 10px;border:1px solid var(--bdr);border-radius:8px;
   font-size:15px;font-weight:600;color:var(--ink);background:var(--bg);text-align:center;
   -moz-appearance:textfield;font-variant-numeric:tabular-nums;-webkit-appearance:none;transition:all .2s;}
 .fp-field input::-webkit-inner-spin-button,.fp-field input::-webkit-outer-spin-button{-webkit-appearance:none}
-.fp-field input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,122,255,0.2);background:var(--card);}
+.fp-field input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,122,255,.15);background:var(--card);}
 .fp-note{font-size:11px;color:var(--hint);margin-top:6px}
-
-/* 固有支出テーブル */
 .exp-table-wrap{overflow-x:auto;padding:4px 0}
 .exp-table{width:100%;border-collapse:collapse;min-width:440px}
 .exp-table th{padding:10px;font-size:13px;color:var(--sub);font-weight:500;text-align:center;border-bottom:1px solid var(--bdr);background:transparent}
 .exp-table th:first-child{text-align:left}
-.exp-table td{padding:8px 10px;border-bottom:0.5px solid var(--bdr)}
+.exp-table td{padding:8px 10px;border-bottom:.5px solid var(--bdr)}
 .exp-table tr:last-child td{border-bottom:none}
 .exp-table input{width:76px;padding:8px;border:1px solid var(--bdr);border-radius:8px;
   font-size:14px;font-weight:500;text-align:right;background:var(--bg);color:var(--ink);
   -moz-appearance:textfield;-webkit-appearance:none;transition:all .2s;}
 .exp-table input::-webkit-inner-spin-button,.exp-table input::-webkit-outer-spin-button{-webkit-appearance:none}
-.exp-table input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,122,255,0.2);background:var(--card);}
+.exp-table input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,122,255,.15);background:var(--card);}
 .exp-table .row-name{font-size:14px;color:var(--ink);font-weight:500;}
-
-/* 更新・リセットボタン */
 .calc-btn{position:sticky;bottom:20px;left:0;right:0;margin:0 20px;z-index:50;display:flex;gap:12px;}
 .calc-btn button{flex:1;padding:16px;font-size:16px;font-weight:600;
   background:var(--acc);color:#fff;border:none;border-radius:14px;cursor:pointer;
-  transition:all .2s;letter-spacing:.02em;box-shadow:0 4px 12px rgba(0,122,255,0.3);}
-.calc-btn button:active{transform:scale(0.98);opacity:.9}
-.calc-btn button.reset-btn{flex:0 0 auto;width:auto;padding:16px 20px;background:var(--card);color:var(--red);border:1px solid var(--red);box-shadow:none;}
+  transition:all .2s;letter-spacing:.02em;box-shadow:0 4px 12px rgba(0,122,255,.3);}
+.calc-btn button:active{transform:scale(.98);opacity:.9}
+.calc-btn button.reset-btn{flex:0 0 auto;width:auto;padding:16px 20px;
+  background:var(--card);color:var(--red);border:1px solid var(--red);box-shadow:none;}
 @media(prefers-color-scheme:dark){.calc-btn button.reset-btn{background:var(--bg);}}
-
-/* ページ表示切替 */
-.page{display:none; animation: fadeIn 0.3s ease;}
+.page{display:none;animation:fadeIn .25s ease}
 .page.active{display:block}
-@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 
 <header class="app-header">
-  <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-  </svg>
-  <span>Kiyabu Family Life Planning</span>
+  <div class="header-left">
+    <div class="header-title">Kiyabu Family</div>
+    <div class="header-sub">Life Planning Simulator</div>
+  </div>
 </header>
 
 <nav>
@@ -163,10 +190,24 @@ tr:hover td{background:var(--bg)}
 
 <div class="kpi-grid" id="kpis"></div>
 <div class="alerts" id="alerts"></div>
+<div class="dirty-banner" id="dirty-banner">
+  <span>設定が変更されています</span>
+  <button onclick="recalcFromForm()">今すぐ更新</button>
+</div>
 
 <div id="graph" class="page active chart-page"></div>
 <div id="table" class="page tbl-page"></div>
 <div id="settings" class="page settings-page">
+
+  <div class="budget-banner" id="budget-banner">
+    <div class="bb-title">想定される物件購入価格（目安）</div>
+    <div class="bb-main"><span id="bb-price">--</span><span> 万円</span></div>
+    <div class="bb-details">
+      資金計画：借入 <span id="bb-loan">--</span>万円 ＋ 現金 <span id="bb-initial">--</span>万円<br>
+      （うち諸経費分 <span id="bb-fees">--</span>万円）
+    </div>
+    <div class="bb-note">※下部の「住宅関連」の月額・期間・初期費用から自動計算（金利0.7%、諸経費を物件価格の約7%として逆算）</div>
+  </div>
 
   <div class="settings-group">
     <div class="group-header">
@@ -175,10 +216,10 @@ tr:hover td{background:var(--bg)}
     </div>
     <div class="field-row"><div class="field-info"><div class="field-name">家族代表 現在年齢</div><div class="field-desc">シミュレーション開始時点の年齢</div></div><div class="field-input"><input type="number" id="p_ageMn" value="34" min="20" max="60"><span class="field-unit">歳</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">配偶者 現在年齢</div><div class="field-desc">シミュレーション開始時点の年齢</div></div><div class="field-input"><input type="number" id="p_ageSp" value="34" min="20" max="60"><span class="field-unit">歳</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">お子様1 現在年齢</div><div class="field-desc">誕生前はマイナス値を入力（例：-1）</div></div><div class="field-input"><input type="number" id="p_ageC1" value="5" min="-5" max="20"><span class="field-unit">歳</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">お子様2 現在年齢</div><div class="field-desc">誕生前はマイナス値を入力（例：-1）</div></div><div class="field-input"><input type="number" id="p_ageC2" value="0" min="-5" max="20"><span class="field-unit">歳</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">家族代表 退職年齢</div><div class="field-desc">給与収入が終わる年齢。⑤の年収はここまで</div></div><div class="field-input"><input type="number" id="p_retireMn" value="70" min="50" max="80"><span class="field-unit">歳</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 退職年齢</div><div class="field-desc">配偶者の給与収入が終わる年齢</div></div><div class="field-input"><input type="number" id="p_retireSp" value="64" min="40" max="75"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">お子様1 現在年齢</div><div class="field-desc">誕生前はマイナス値（例：-1）</div></div><div class="field-input"><input type="number" id="p_ageC1" value="5" min="-5" max="20"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">お子様2 現在年齢</div><div class="field-desc">誕生前はマイナス値（例：-1）</div></div><div class="field-input"><input type="number" id="p_ageC2" value="0" min="-5" max="20"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">家族代表 退職年齢</div><div class="field-desc">給与収入が終わる年齢。年収⑤はここまで</div></div><div class="field-input"><input type="number" id="p_retireMn" value="70" min="50" max="80"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 退職年齢</div><div class="field-desc">配偶者の給与収入が終わる年齢</div></div><div class="field-input"><input type="number" id="p_retireSp" value="60" min="40" max="75"><span class="field-unit">歳</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">年金受給開始年齢</div><div class="field-desc">公的年金を受け取り始める年齢（原則65歳）</div></div><div class="field-input"><input type="number" id="p_pensionStart" value="65" min="60" max="75"><span class="field-unit">歳</span></div></div>
   </div>
 
@@ -192,67 +233,68 @@ tr:hover td{background:var(--bg)}
     <div class="field-row"><div class="field-info"><div class="field-name">年収③ 42〜51歳</div><div class="field-desc">管理職・中堅期の年収</div></div><div class="field-input"><input type="number" id="p_inc3" value="1500" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">年収④ 52〜59歳</div><div class="field-desc">年収ピーク期（役職手当含む）</div></div><div class="field-input"><input type="number" id="p_inc4" value="1500" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">年収⑤ 60歳〜退職</div><div class="field-desc">再雇用・顧問・フリーランス等での年収</div></div><div class="field-input"><input type="number" id="p_inc5" value="800" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 就労開始年齢</div><div class="field-desc">配偶者が収入を得始める年齢</div></div><div class="field-input"><input type="number" id="p_startSp" value="40" min="20" max="75"><span class="field-unit">歳</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 年収</div><div class="field-desc">就労開始〜退職までの年収</div></div><div class="field-input"><input type="number" id="p_incSp" value="120" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子育て手当 子1（年額）</div><div class="field-desc">児童手当。子1が0〜18歳の期間</div></div><div class="field-input"><input type="number" id="p_allowC1" value="12"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子育て手当 子2（年額）</div><div class="field-desc">児童手当。子2が0〜18歳の期間</div></div><div class="field-input"><input type="number" id="p_allowC2" value="12"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 就労開始年齢</div><div class="field-desc">配偶者が収入を得始める配偶者の年齢</div></div><div class="field-input"><input type="number" id="p_startSp" value="41" min="20" max="75"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 年収</div><div class="field-desc">就労開始〜退職までの年収。パート・フリーランス等</div></div><div class="field-input"><input type="number" id="p_incSp" value="120" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子育て手当 子1（年額）</div><div class="field-desc">児童手当・高校就学支援金等。子1が0〜18歳の期間</div></div><div class="field-input"><input type="number" id="p_allowC1" value="12"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子育て手当 子2（年額）</div><div class="field-desc">児童手当・高校就学支援金等。子2が0〜18歳の期間</div></div><div class="field-input"><input type="number" id="p_allowC2" value="12"><span class="field-unit">万円</span></div></div>
   </div>
 
   <div class="settings-group">
     <div class="group-header">
-      <div class="group-title">住宅関連（ローン控除含む・万円）</div>
-      <div class="group-desc">購入費用、返済額、および住宅ローン控除の設定</div>
+      <div class="group-title">住宅関連</div>
+      <div class="group-desc">購入前の家賃と、購入時の初期費用・ローンを独立して計算します。ローン期間は設定した年数で計算します</div>
     </div>
     <div class="field-row"><div class="field-info"><div class="field-name">購入予定年齢</div><div class="field-desc">住宅を購入し、ローン開始・初期費用が発生する年齢</div></div><div class="field-input"><input type="number" id="p_houseBuyAge" value="35" min="20" max="80"><span class="field-unit">歳</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">購入前 家賃（年間）</div><div class="field-desc">購入予定年齢に達するまでの年間家賃</div></div><div class="field-input"><input type="number" id="p_rentPre" value="192" step="1"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">購入時 初期費用・頭金</div><div class="field-desc">購入する年に現金で支払う諸費用と頭金の合計（8千万なら約600万）</div></div><div class="field-input"><input type="number" id="p_houseInitial" value="600" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">ローン年間返済額</div><div class="field-desc">購入後、35年間続く想定の年間返済額</div></div><div class="field-input"><input type="number" id="p_loanAnn" value="240" step="5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">住宅維持費（年間）</div><div class="field-desc">購入後の固定資産税・修繕積立金・管理費など</div></div><div class="field-input"><input type="number" id="p_maint" value="60" step="5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">住宅ローン控除（年間）</div><div class="field-desc">所得税・住民税から控除される年間最大額（認定住宅等の目安）</div></div><div class="field-input"><input type="number" id="p_loanDed" value="31.5" step="0.5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">ローン控除 適用期間</div><div class="field-desc">控除が適用される年数（通常13年）</div></div><div class="field-input"><input type="number" id="p_loanDedYrs" value="13" min="0" max="20"><span class="field-unit">年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">購入前 家賃（年間）</div><div class="field-desc">購入予定年齢に達するまでの年間家賃</div></div><div class="field-input"><input type="number" id="p_rentPre" value="192" step="1"><span class="field-unit">万円/年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">購入時 初期費用・頭金</div><div class="field-desc">購入する年に現金で支払う諸費用と頭金の合計（一度だけ発生）</div></div><div class="field-input"><input type="number" id="p_houseInitial" value="200" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">ローン月額返済額</div><div class="field-desc">購入後のローン月額返済額（ボーナス払いなしの均等割）</div></div><div class="field-input"><input type="number" id="p_loanMonthly" value="20" step="0.5"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">ローン返済期間</div><div class="field-desc">何年間ローンを返済するか（35年・50年など。計算に反映されます）</div></div><div class="field-input"><input type="number" id="p_loanYears" value="35" min="10" max="50"><span class="field-unit">年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">住宅維持費（年間）</div><div class="field-desc">購入後の固定資産税・修繕積立金・管理費など（ローン完済後も継続）</div></div><div class="field-input"><input type="number" id="p_maint" value="30" step="5"><span class="field-unit">万円/年</span></div></div>
   </div>
 
   <div class="settings-group">
     <div class="group-header">
-      <div class="group-title">生活費・固定支出（月額・万円）</div>
-      <div class="group-desc">毎月発生する食費・日用品・光熱費などの共通生活費を入力します</div>
+      <div class="group-title">生活費（月額・万円）</div>
+      <div class="group-desc">毎月発生する食費・日用品・光熱費などの共通生活費</div>
     </div>
     <div class="field-row"><div class="field-info"><div class="field-name">食費（月額）</div><div class="field-desc">毎月の食費</div></div><div class="field-input"><input type="number" id="p_food" value="15" step="0.5"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">日用品（月額）</div><div class="field-desc">日用品・消耗品</div></div><div class="field-input"><input type="number" id="p_daily" value="7" step="0.5"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">水道・光熱費（月額）</div><div class="field-desc">電気・ガス・水道代の平均</div></div><div class="field-input"><input type="number" id="p_util" value="3" step="0.5"><span class="field-unit">万円/月</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">老後の共通生活費（月額）</div><div class="field-desc">65歳以降の月額生活費（食費＋日用品＋光熱費）</div></div><div class="field-input"><input type="number" id="p_livingOldMon" value="15" step="0.5"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子供自立後の生活費（月額）</div><div class="field-desc">末子が大学卒業（22歳）後の生活費。食費・光熱費など子供がいなくなって減る分を反映</div></div><div class="field-input"><input type="number" id="p_livingKidsMon" value="22" step="0.5"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">老後の共通生活費（月額）</div><div class="field-desc">65歳以降の月額生活費（食費＋日用品＋光熱費）。現在より減る場合が多い</div></div><div class="field-input"><input type="number" id="p_livingOldMon" value="18" step="0.5"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">保険料合計（年間）</div><div class="field-desc">生命保険・医療保険等の年間払込合計</div></div><div class="field-input"><input type="number" id="p_insurAnn" value="7"><span class="field-unit">万円/年</span></div></div>
   </div>
 
   <div class="settings-group">
     <div class="group-header">
       <div class="group-title">自動車ローン</div>
-      <div class="group-desc">車の買い替えごとにローンを組む設定。頭金は「将来プラン」で管理</div>
+      <div class="group-desc">買い替えのたびにローンを組む想定。頭金は「将来プラン」の「自動車 頭金」に入力してください</div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">ローン月額返済額</div><div class="field-desc">毎月のローン返済額（元利合計）</div></div><div class="field-input"><input type="number" id="p_carMonthly" value="4" step="0.1" min="0"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">ローン月額返済額</div><div class="field-desc">毎月のローン返済額（元利合計）。例：250万円・5年・金利2%なら月約4.4万円</div></div><div class="field-input"><input type="number" id="p_carMonthly" value="4" step="0.1" min="0"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">ローン返済期間</div><div class="field-desc">1回のローンの返済年数</div></div><div class="field-input"><input type="number" id="p_carYears" value="5" min="1" max="10"><span class="field-unit">年</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">ローン開始年齢（初回）</div><div class="field-desc">最初に車を買う年齢</div></div><div class="field-input"><input type="number" id="p_carStartAge" value="33" min="25" max="70"><span class="field-unit">歳</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">買い替えサイクル</div><div class="field-desc">何年ごとに買い替えるか</div></div><div class="field-input"><input type="number" id="p_carCycle" value="13" min="3" max="20"><span class="field-unit">年</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">最終買い替え年齢</div><div class="field-desc">この年齢以降は買い替えない</div></div><div class="field-input"><input type="number" id="p_carEndAge" value="62" min="40" max="80"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">ローン開始年齢（初回）</div><div class="field-desc">最初に車を買う年齢（家族代表の年齢）</div></div><div class="field-input"><input type="number" id="p_carStartAge" value="33" min="20" max="70"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">買い替えサイクル</div><div class="field-desc">何年ごとに買い替えるか</div></div><div class="field-input"><input type="number" id="p_carCycle" value="13" min="1" max="20"><span class="field-unit">年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">最終買い替え年齢</div><div class="field-desc">この年齢以降は買い替えない（例：免許返納を想定）</div></div><div class="field-input"><input type="number" id="p_carEndAge" value="62" min="40" max="80"><span class="field-unit">歳</span></div></div>
   </div>
 
   <div class="settings-group">
     <div class="group-header">
       <div class="group-title">本人 固有支出（月額・万円）</div>
-      <div class="group-desc">家族代表本人のみの支出。年齢の範囲内で計算されます</div>
+      <div class="group-desc">家族代表本人のみの支出。開始〜終了年齢の範囲内で計算されます</div>
     </div>
     <div style="padding:16px 20px">
       <div class="exp-table-wrap">
         <table class="exp-table">
           <thead><tr><th>費目</th><th>月額（万円）</th><th>開始年齢</th><th>終了年齢</th></tr></thead>
           <tbody>
-            <tr><td class="row-name">被服費</td><td><input type="number" id="m_p0" value="0.3" step="0.1" min="0"></td><td><input type="number" id="m_s0" value="33" min="20" max="89"></td><td><input type="number" id="m_e0" value="81" min="20" max="99"></td></tr>
-            <tr><td class="row-name">携帯・通信</td><td><input type="number" id="m_p1" value="0.4" step="0.1" min="0"></td><td><input type="number" id="m_s1" value="33" min="20" max="89"></td><td><input type="number" id="m_e1" value="99" min="20" max="99"></td></tr>
-            <tr><td class="row-name">交際費</td><td><input type="number" id="m_p2" value="1.5" step="0.1" min="0"></td><td><input type="number" id="m_s2" value="33" min="20" max="89"></td><td><input type="number" id="m_e2" value="64" min="20" max="99"></td></tr>
-            <tr><td class="row-name">美容院・化粧品</td><td><input type="number" id="m_p3" value="0.4" step="0.1" min="0"></td><td><input type="number" id="m_s3" value="33" min="20" max="89"></td><td><input type="number" id="m_e3" value="99" min="20" max="99"></td></tr>
-            <tr><td class="row-name">コンタクト</td><td><input type="number" id="m_p4" value="0.2" step="0.1" min="0"></td><td><input type="number" id="m_s4" value="33" min="20" max="89"></td><td><input type="number" id="m_e4" value="72" min="20" max="99"></td></tr>
-            <tr><td class="row-name">ジム・スポーツ</td><td><input type="number" id="m_p5" value="0.8" step="0.1" min="0"></td><td><input type="number" id="m_s5" value="33" min="20" max="89"></td><td><input type="number" id="m_e5" value="42" min="20" max="99"></td></tr>
-            <tr><td class="row-name">昼食費</td><td><input type="number" id="m_p6" value="2.0" step="0.1" min="0"></td><td><input type="number" id="m_s6" value="33" min="20" max="89"></td><td><input type="number" id="m_e6" value="64" min="20" max="99"></td></tr>
-            <tr><td class="row-name">趣味の支出</td><td><input type="number" id="m_p7" value="1.0" step="0.1" min="0"></td><td><input type="number" id="m_s7" value="33" min="20" max="89"></td><td><input type="number" id="m_e7" value="81" min="20" max="99"></td></tr>
+            <tr><td class="row-name">被服費</td><td><input type="number" id="m_p0" value="0.3" step="0.1" min="0"></td><td><input type="number" id="m_s0" value="33"></td><td><input type="number" id="m_e0" value="75"></td></tr>
+            <tr><td class="row-name">携帯・通信</td><td><input type="number" id="m_p1" value="0.4" step="0.1" min="0"></td><td><input type="number" id="m_s1" value="33"></td><td><input type="number" id="m_e1" value="99"></td></tr>
+            <tr><td class="row-name">交際費</td><td><input type="number" id="m_p2" value="1.5" step="0.1" min="0"></td><td><input type="number" id="m_s2" value="33"></td><td><input type="number" id="m_e2" value="64"></td></tr>
+            <tr><td class="row-name">美容院・化粧品</td><td><input type="number" id="m_p3" value="0.4" step="0.1" min="0"></td><td><input type="number" id="m_s3" value="33"></td><td><input type="number" id="m_e3" value="75"></td></tr>
+            <tr><td class="row-name">コンタクト</td><td><input type="number" id="m_p4" value="0.2" step="0.1" min="0"></td><td><input type="number" id="m_s4" value="33"></td><td><input type="number" id="m_e4" value="72"></td></tr>
+            <tr><td class="row-name">ジム・スポーツ</td><td><input type="number" id="m_p5" value="0.8" step="0.1" min="0"></td><td><input type="number" id="m_s5" value="33"></td><td><input type="number" id="m_e5" value="42"></td></tr>
+            <tr><td class="row-name">昼食費</td><td><input type="number" id="m_p6" value="2.0" step="0.1" min="0"></td><td><input type="number" id="m_s6" value="33"></td><td><input type="number" id="m_e6" value="64"></td></tr>
+            <tr><td class="row-name">趣味の支出</td><td><input type="number" id="m_p7" value="1.0" step="0.1" min="0"></td><td><input type="number" id="m_s7" value="33"></td><td><input type="number" id="m_e7" value="72"></td></tr>
           </tbody>
         </table>
       </div>
@@ -269,13 +311,13 @@ tr:hover td{background:var(--bg)}
         <table class="exp-table">
           <thead><tr><th>費目</th><th>月額（万円）</th><th>開始年齢</th><th>終了年齢</th></tr></thead>
           <tbody>
-            <tr><td class="row-name">被服費</td><td><input type="number" id="s_p0" value="0.3" step="0.1" min="0"></td><td><input type="number" id="s_s0" value="33" min="20" max="89"></td><td><input type="number" id="s_e0" value="87" min="20" max="99"></td></tr>
-            <tr><td class="row-name">奨学金返済</td><td><input type="number" id="s_p1" value="1.7" step="0.1" min="0"></td><td><input type="number" id="s_s1" value="23" min="15" max="89"></td><td><input type="number" id="s_e1" value="42" min="20" max="99"></td></tr>
-            <tr><td class="row-name">美容院・化粧品</td><td><input type="number" id="s_p2" value="1.0" step="0.1" min="0"></td><td><input type="number" id="s_s2" value="33" min="20" max="89"></td><td><input type="number" id="s_e2" value="99" min="20" max="99"></td></tr>
-            <tr><td class="row-name">外食費</td><td><input type="number" id="s_p3" value="0.4" step="0.1" min="0"></td><td><input type="number" id="s_s3" value="33" min="20" max="89"></td><td><input type="number" id="s_e3" value="99" min="20" max="99"></td></tr>
-            <tr><td class="row-name">通信費</td><td><input type="number" id="s_p4" value="0.4" step="0.1" min="0"></td><td><input type="number" id="s_s4" value="33" min="20" max="89"></td><td><input type="number" id="s_e4" value="99" min="20" max="99"></td></tr>
-            <tr><td class="row-name">ジム・スポーツ</td><td><input type="number" id="s_p5" value="0.8" step="0.1" min="0"></td><td><input type="number" id="s_s5" value="33" min="20" max="89"></td><td><input type="number" id="s_e5" value="55" min="20" max="99"></td></tr>
-            <tr><td class="row-name">趣味の支出</td><td><input type="number" id="s_p6" value="0.5" step="0.1" min="0"></td><td><input type="number" id="s_s6" value="33" min="20" max="89"></td><td><input type="number" id="s_e6" value="81" min="20" max="99"></td></tr>
+            <tr><td class="row-name">被服費</td><td><input type="number" id="s_p0" value="0.3" step="0.1" min="0"></td><td><input type="number" id="s_s0" value="33"></td><td><input type="number" id="s_e0" value="75"></td></tr>
+            <tr><td class="row-name">奨学金返済</td><td><input type="number" id="s_p1" value="1.7" step="0.1" min="0"></td><td><input type="number" id="s_s1" value="23"></td><td><input type="number" id="s_e1" value="42"></td></tr>
+            <tr><td class="row-name">美容院・化粧品</td><td><input type="number" id="s_p2" value="1.0" step="0.1" min="0"></td><td><input type="number" id="s_s2" value="33"></td><td><input type="number" id="s_e2" value="75"></td></tr>
+            <tr><td class="row-name">外食費</td><td><input type="number" id="s_p3" value="0.4" step="0.1" min="0"></td><td><input type="number" id="s_s3" value="33"></td><td><input type="number" id="s_e3" value="75"></td></tr>
+            <tr><td class="row-name">通信費</td><td><input type="number" id="s_p4" value="0.4" step="0.1" min="0"></td><td><input type="number" id="s_s4" value="33"></td><td><input type="number" id="s_e4" value="99"></td></tr>
+            <tr><td class="row-name">ジム・スポーツ</td><td><input type="number" id="s_p5" value="0.8" step="0.1" min="0"></td><td><input type="number" id="s_s5" value="33"></td><td><input type="number" id="s_e5" value="55"></td></tr>
+            <tr><td class="row-name">趣味の支出</td><td><input type="number" id="s_p6" value="0.5" step="0.1" min="0"></td><td><input type="number" id="s_s6" value="33"></td><td><input type="number" id="s_e6" value="72"></td></tr>
           </tbody>
         </table>
       </div>
@@ -285,26 +327,26 @@ tr:hover td{background:var(--bg)}
   <div class="settings-group">
     <div class="group-header">
       <div class="group-title">教育費（在学中の総費用・万円）</div>
-      <div class="group-desc">各フェーズの在学期間中に支払う合計金額（高校無償化を加味）</div>
+      <div class="group-desc">各フェーズの在学期間中に支払う合計金額（幼3年/小6年/中3年/高3年/大4年で按分）</div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子1 幼稚園（3年計）</div><div class="field-desc">私立幼稚園の場合 約96万、公立の場合 約0〜30万</div></div><div class="field-input"><input type="number" id="p_c1Yochi" value="0" step="5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子1 小学校（6年計）</div><div class="field-desc">私立 約96万、公立 約32万（文科省調査）</div></div><div class="field-input"><input type="number" id="p_c1Shou" value="96" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子1 幼稚園（3年計）</div><div class="field-desc">私立 約96万、公立 約0〜30万</div></div><div class="field-input"><input type="number" id="p_c1Yochi" value="0" step="5"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子1 小学校（6年計）</div><div class="field-desc">私立 約96万、公立 約32万</div></div><div class="field-input"><input type="number" id="p_c1Shou" value="96" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子1 中学校（3年計）</div><div class="field-desc">私立 約210万、公立 約46万</div></div><div class="field-input"><input type="number" id="p_c1Chu" value="210" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子1 高校（3年計）</div><div class="field-desc">私立実質無償化を加味（修学旅行等のみで約150万）</div></div><div class="field-input"><input type="number" id="p_c1Koko" value="150" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子1 大学（4年計）</div><div class="field-desc">私立理系（自宅） 約1,105万、私立文系 約820万、国立 約580万</div></div><div class="field-input"><input type="number" id="p_c1Dai" value="1105" step="50"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子1 結婚援助</div><div class="field-desc">結婚の際の援助金（子1が29歳時に計上）</div></div><div class="field-input"><input type="number" id="p_c1Wed" value="200" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子1 高校（3年計）</div><div class="field-desc">私立 約154万（就学支援金差引後）、公立 約49万</div></div><div class="field-input"><input type="number" id="p_c1Koko" value="451" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子1 大学（4年計）</div><div class="field-desc">文科省調査平均：私立文系 約410万、私立理系 約540万、国公立 約245万。文理平均で480万を初期値に設定</div></div><div class="field-input"><input type="number" id="p_c1Dai" value="480" step="50"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子1 結婚援助</div><div class="field-desc">子1が29歳時に計上</div></div><div class="field-input"><input type="number" id="p_c1Wed" value="200" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 幼稚園（3年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Yochi" value="0" step="5"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 小学校（6年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Shou" value="96" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 中学校（3年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Chu" value="210" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子2 高校（3年計）</div><div class="field-desc">私立実質無償化を加味（修学旅行等のみで約150万）</div></div><div class="field-input"><input type="number" id="p_c2Koko" value="150" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子2 大学（4年計）</div><div class="field-desc">私立理系（自宅） 約1,208万（子1より高い場合など）</div></div><div class="field-input"><input type="number" id="p_c2Dai" value="1208" step="50"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子2 高校（3年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Koko" value="451" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子2 大学（4年計）</div><div class="field-desc">文科省調査平均：私立文系 約410万、私立理系 約540万、国公立 約245万</div></div><div class="field-input"><input type="number" id="p_c2Dai" value="480" step="50"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 結婚援助</div><div class="field-desc">子2が31歳時に計上</div></div><div class="field-input"><input type="number" id="p_c2Wed" value="200" step="10"><span class="field-unit">万円</span></div></div>
   </div>
 
   <div class="settings-group">
     <div class="group-header">
       <div class="group-title">将来プラン・イベント</div>
-      <div class="group-desc">金額・開始年齢・終了年齢・間隔（年）を入力。間隔0＝一度だけ、1＝毎年、13＝13年ごと</div>
+      <div class="group-desc">イベント名も編集できます。間隔：0＝一度だけ、1＝毎年、13＝13年ごと</div>
     </div>
     <div id="fp-list"></div>
   </div>
@@ -320,56 +362,59 @@ tr:hover td{background:var(--bg)}
     <div class="field-row"><div class="field-info"><div class="field-name">NISA 毎月積立額</div><div class="field-desc">毎月拠出する金額（年間 ×12で計算）</div></div><div class="field-input"><input type="number" id="p_nisaMon" value="5" step="0.5" min="0"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">iDeCo 毎月掛金</div><div class="field-desc">毎月の掛金（年間 ×12で計算）</div></div><div class="field-input"><input type="number" id="p_idecoMon" value="0.9" step="0.1" min="0"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">企業型DC 受取予定額</div><div class="field-desc">65歳時に一括受取する企業型DC（確定拠出年金）の金額</div></div><div class="field-input"><input type="number" id="p_dcCorp" value="2000" step="50"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">NISA 想定運用利率</div><div class="field-desc">利回り設定</div></div><div class="field-input"><input type="number" id="p_rateM" value="5.0" step="0.1" min="0" max="15"><span class="field-unit">%/年</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">iDeCo 想定運用利率</div><div class="field-desc">利回り設定</div></div><div class="field-input"><input type="number" id="p_rateL" value="5.0" step="0.1" min="0" max="15"><span class="field-unit">%/年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">NISA 想定運用利率</div><div class="field-desc">世界株インデックスの長期実績から設定。保守的なら3〜4%</div></div><div class="field-input"><input type="number" id="p_rateM" value="5.0" step="0.1" min="0" max="15"><span class="field-unit">%/年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">iDeCo 想定運用利率</div><div class="field-desc">バランス型の長期実績から設定。保守的なら3%</div></div><div class="field-input"><input type="number" id="p_rateL" value="5.0" step="0.1" min="0" max="15"><span class="field-unit">%/年</span></div></div>
   </div>
 
   <div class="settings-group">
     <div class="group-header">
       <div class="group-title">公的年金（万円/年）</div>
-      <div class="group-desc">「ねんきんネット」または「ねんきん定期便」の見込み額を入力。基礎年金＋厚生年金の合計が年間受給額</div>
+      <div class="group-desc">「ねんきんネット」または「ねんきん定期便」の見込み額を入力。「年収から推計」で年収設定をもとに自動計算できます</div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">家族代表 基礎年金</div><div class="field-desc">老齢基礎年金（満額は約79万円/年）</div></div><div class="field-input"><input type="number" id="p_penMkiso" value="74"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">家族代表 厚生年金</div><div class="field-desc">老齢厚生年金。ねんきん定期便の「65歳からの老齢厚生年金」欄を参照</div></div><div class="field-input"><input type="number" id="p_penMkose" value="197" step="5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 基礎年金</div><div class="field-desc">老齢基礎年金</div></div><div class="field-input"><input type="number" id="p_penSkiso" value="74"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 厚生年金</div><div class="field-desc">老齢厚生年金（パート勤務の場合は少額になることが多い）</div></div><div class="field-input"><input type="number" id="p_penSkose" value="11"><span class="field-unit">万円</span></div></div>
-  </div>
-
-  <div class="settings-group">
-    <div class="group-header">
-      <div class="group-title">各種上昇率（2025年3月調査済・最新データ）</div>
-      <div class="group-desc">将来の物価・年金などの変化率。日銀・厚労省・文科省データをもとに設定済み</div>
+    <div class="field-row" style="background:var(--bg)">
+      <div class="field-info"><div class="field-name">年収設定から自動推計</div><div class="field-desc" id="pension-est-desc">年収①〜⑤と配偶者年収・加入年数をもとに厚生年金を推計します</div></div>
+      <div class="field-input"><button onclick="estimatePension()" style="background:var(--acc);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">年収から推計</button></div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">一般物価上昇率</div><div class="field-desc">日銀目標2%。2025年度コアCPI+2.7%→2026年度+1.7%で中長期収束値として設定</div></div><div class="field-input"><input type="number" id="p_inflation" value="2.0" step="0.1" min="0" max="10"><span class="field-unit">%</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">教育費上昇率</div><div class="field-desc">私立大2005〜2023年で授業料+15%（年率0.8%）。国立値上げ加速で1.5%を設定</div></div><div class="field-input"><input type="number" id="p_eduInflate" value="1.5" step="0.1" min="0" max="10"><span class="field-unit">%</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">年金上昇率</div><div class="field-desc">マクロ経済スライドで物価より低い伸び。名目+1.5%（2025年度+1.9%）を設定</div></div><div class="field-input"><input type="number" id="p_pensionInflate" value="1.5" step="0.1" min="-5" max="10"><span class="field-unit">%</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">将来プラン上昇率</div><div class="field-desc">旅行・自動車等の費用は物価連動と想定</div></div><div class="field-input"><input type="number" id="p_fpInflate" value="2.0" step="0.1" min="0" max="10"><span class="field-unit">%</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">家族代表 基礎年金</div><div class="field-desc">老齢基礎年金（満額は約79万円/年。22歳〜65歳の43年加入で満額）</div></div><div class="field-input"><input type="number" id="p_penMkiso" value="74"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">家族代表 厚生年金</div><div class="field-desc">老齢厚生年金。ねんきん定期便の「65歳からの老齢厚生年金」欄が最も正確です</div></div><div class="field-input"><input type="number" id="p_penMkose" value="188" step="5"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 基礎年金</div><div class="field-desc">老齢基礎年金（加入年数÷40×79万で概算）</div></div><div class="field-input"><input type="number" id="p_penSkiso" value="40"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 厚生年金</div><div class="field-desc">老齢厚生年金（パート勤務の場合は少額）</div></div><div class="field-input"><input type="number" id="p_penSkose" value="13" step="5"><span class="field-unit">万円</span></div></div>
   </div>
 
   <div class="calc-btn">
     <button onclick="recalcFromForm()">計算を更新して保存</button>
     <button class="reset-btn" onclick="resetData()">初期化</button>
   </div>
-</div><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// 将来プランの初期データ（SAPIXを小4〜小6の3年間に年100万で再設定）
-// 子1は現在5歳(父34歳) → 父38〜40歳の時に通塾
-// 子2は現在0歳(父34歳) → 父43〜45歳の時に通塾
+// ── ローン元金を逆算（元利均等）──
+function calcMaxLoan(annualPmt, years, annualRate){
+  if(years<=0||annualPmt<=0)return 0;
+  const r=annualRate/12, n=years*12, pmt=annualPmt/12;
+  if(r===0)return Math.round(pmt*n/100)*100;
+  return Math.round(pmt*(1-Math.pow(1+r,-n))/r/100)*100;
+}
+
+// ── 将来プラン（イベント名を編集可能に） ──
 const FP_INIT=[
-  {name:'家族旅行（福岡・鹿児島）',amt:30,s:34,e:69,c:1},
-  {name:'国内旅行',amt:20,s:34,e:81,c:1},
+  {name:'家族旅行（福岡・鹿児島）',amt:20,s:34,e:50,c:1},
+  {name:'国内旅行',amt:20,s:34,e:75,c:1},
   {name:'新婚旅行',amt:100,s:38,e:38,c:0},
-  {name:'大規模修繕',amt:400,s:69,e:69,c:0},
+  {name:'大規模修繕',amt:200,s:69,e:69,c:0},
   {name:'自動車 頭金（買い替え時）',amt:50,s:36,e:62,c:13},
-  {name:'サピックス（子1）',amt:100,s:38,e:40,c:1},
-  {name:'サピックス（子2）',amt:100,s:43,e:45,c:1}
+  {name:'サピックス（子1）',amt:80,s:39,e:47,c:0},
+  {name:'サピックス（子2）',amt:80,s:40,e:47,c:0},
+  {name:'サピックス（追加）',amt:80,s:41,e:47,c:0},
 ];
 
 function buildFPList(){
-  const el=document.getElementById('fp-list');
-  el.innerHTML=FP_INIT.map((fp,i)=>`
+  document.getElementById('fp-list').innerHTML=FP_INIT.map((fp,i)=>`
     <div class="fp-item">
-      <div class="fp-name">${fp.name}</div>
+      <div class="fp-name-row">
+        <input class="fp-name-input" type="text" id="fp_n${i}" value="${fp.name}" placeholder="イベント名">
+      </div>
       <div class="fp-fields">
         <div class="fp-field"><label>金額（万円）</label><input type="number" id="fp_a${i}" value="${fp.amt}" step="10" min="0"></div>
         <div class="fp-field"><label>開始年齢</label><input type="number" id="fp_s${i}" value="${fp.s}" min="25" max="89"></div>
@@ -380,57 +425,120 @@ function buildFPList(){
 }
 buildFPList();
 
-function saveData() {
-  const inputs = document.querySelectorAll('input');
-  const data = {};
-  inputs.forEach(inp => { if(inp.id) data[inp.id] = inp.value; });
-  localStorage.setItem('lifeplan_data', JSON.stringify(data));
+// ── localStorage（エラーハンドリング付き） ──
+const LS_KEY='lifeplan_data';
+const LS_VER='v7'; // UI変更でバージョンアップ
+function saveData(){
+  try{
+    const data={};
+    document.querySelectorAll('input[id]').forEach(inp=>{data[inp.id]=inp.value;});
+    localStorage.setItem(LS_KEY+'_'+LS_VER,JSON.stringify(data));
+  }catch(e){console.warn('保存失敗',e);}
 }
 
-function loadData() {
-  const saved = localStorage.getItem('lifeplan_data');
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      Object.keys(data).forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = data[id];
+function loadData(){
+  try{
+    ['','_v1','_v2','_v3','_v4','_v5','_v6'].forEach(v=>{
+      try{localStorage.removeItem(LS_KEY+v);}catch(e){}
+    });
+    const saved=localStorage.getItem(LS_KEY+'_'+LS_VER);
+    if(!saved)return;
+    const data=JSON.parse(saved);
+    Object.keys(data).forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)el.value=data[id];
+    });
+  }catch(e){console.warn('データ読み込み失敗',e);}
+}
+
+function resetData(){
+  if(confirm('入力したデータをすべて初期値に戻しますか？')){
+    try{
+      ['','_v1','_v2','_v3','_v4','_v5','_v6','_v7'].forEach(v=>{
+        localStorage.removeItem(LS_KEY+v);
       });
-    } catch (e) { console.error("データの読み込みに失敗しました", e); }
+    }catch(e){}
+    location.reload();
   }
 }
 
-function resetData() {
-  if(confirm("入力したデータをすべて初期値に戻しますか？")) {
-    localStorage.removeItem('lifeplan_data');
-    location.reload(); 
+// ── 変更検知とバナー更新 ──
+let isDirty=false;
+function markDirty(){
+  if(!isDirty){
+    isDirty=true;
+    document.getElementById('dirty-banner').classList.add('show');
   }
 }
+function clearDirty(){
+  isDirty=false;
+  document.getElementById('dirty-banner').classList.remove('show');
+}
+document.getElementById('settings').addEventListener('input', (e) => {
+  markDirty();
+  // 住宅関連の入力があれば即時で物件価格バナーを更新
+  if (['p_loanMonthly', 'p_loanYears', 'p_houseInitial'].includes(e.target.id)) {
+    updateEstimatedHousePrice();
+  }
+});
 
+// ── 物件購入価格の自動計算（バナー用） ──
+function updateEstimatedHousePrice() {
+  const monthlyPmt = parseFloat(document.getElementById('p_loanMonthly').value) || 0;
+  const years = parseInt(document.getElementById('p_loanYears').value) || 0;
+  const initial = parseFloat(document.getElementById('p_houseInitial').value) || 0;
+
+  const rate = 0.007; // 固定0.7%で概算
+  let loanAmount = 0;
+  if (monthlyPmt > 0 && years > 0) {
+    const r = rate / 12;
+    const n = years * 12;
+    // 月額（万円）から借入元金（万円）を算出
+    loanAmount = Math.round(monthlyPmt * (1 - Math.pow(1 + r, -n)) / r);
+  }
+
+  // 総予算 ＝ 借入額 ＋ 現金（頭金・初期費用）
+  const totalBudget = loanAmount + initial;
+  
+  // 諸経費を物件価格の約7%と仮定 → 物件価格 = 総予算 / 1.07
+  const propertyPrice = Math.round(totalBudget / 1.07);
+  const fees = totalBudget - propertyPrice;
+
+  document.getElementById('bb-price').textContent = propertyPrice.toLocaleString();
+  document.getElementById('bb-loan').textContent = loanAmount.toLocaleString();
+  document.getElementById('bb-initial').textContent = initial.toLocaleString();
+  document.getElementById('bb-fees').textContent = fees.toLocaleString();
+}
+
+// ── パラメータ読み取り ──
 function readParams(){
-  const g=id=>parseFloat(document.getElementById(id).value)||0;
-  const gi=id=>parseInt(document.getElementById(id).value)||0;
+  const g=id=>{const el=document.getElementById(id);return el?parseFloat(el.value)||0:0;};
+  const gi=id=>{const el=document.getElementById(id);return el?parseInt(el.value)||0:0;};
+  const gt=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
   const mexp=[],sexp=[];
   for(let i=0;i<8;i++)mexp.push({p:g('m_p'+i),s:gi('m_s'+i),e:gi('m_e'+i)});
   for(let i=0;i<7;i++)sexp.push({p:g('s_p'+i),s:gi('s_s'+i),e:gi('s_e'+i)});
-  const fps=FP_INIT.map((_,i)=>({a:g('fp_a'+i),s:gi('fp_s'+i),e:gi('fp_e'+i),c:gi('fp_c'+i)}));
+  const fps=FP_INIT.map((_,i)=>({
+    name:gt('fp_n'+i),a:g('fp_a'+i),s:gi('fp_s'+i),e:gi('fp_e'+i),c:gi('fp_c'+i)
+  }));
   return{
     ageMn:gi('p_ageMn'),ageSp:gi('p_ageSp'),ageC1:gi('p_ageC1'),ageC2:gi('p_ageC2'),
     retireMn:gi('p_retireMn'),retireSp:gi('p_retireSp'),pensionStart:gi('p_pensionStart'),
     startSp:gi('p_startSp'),
     inc1:g('p_inc1'),inc2:g('p_inc2'),inc3:g('p_inc3'),inc4:g('p_inc4'),inc5:g('p_inc5'),
     incSp:g('p_incSp'),allowC1:g('p_allowC1'),allowC2:g('p_allowC2'),
-    
-    food:g('p_food'), daily:g('p_daily'), util:g('p_util'), livingOldMon:g('p_livingOldMon'),
-    
-    houseBuyAge:gi('p_houseBuyAge'),rentPre:g('p_rentPre'),houseInitial:g('p_houseInitial'),
-    loanAnn:g('p_loanAnn'),maint:g('p_maint'),
-    // ローン控除パラメータを追加
-    loanDed:g('p_loanDed'), loanDedYrs:gi('p_loanDedYrs'),
-    
+    food:g('p_food'),daily:g('p_daily'),util:g('p_util'),livingKidsMon:g('p_livingKidsMon'),livingOldMon:g('p_livingOldMon'),
+    insurAnn:g('p_insurAnn'),
+    houseBuyAge:gi('p_houseBuyAge'),rentPre:g('p_rentPre'),
+    houseInitial:g('p_houseInitial'),
+    loanMonthly:g('p_loanMonthly'), loanAnn:g('p_loanMonthly') * 12, // 月額から年額を自動計算して全体に渡す
+    loanYears:gi('p_loanYears'),  
+    maint:g('p_maint'),
     mexp,sexp,
-    c1Yochi:g('p_c1Yochi'),c1Shou:g('p_c1Shou'),c1Chu:g('p_c1Chu'),c1Koko:g('p_c1Koko'),c1Dai:g('p_c1Dai'),c1Wed:g('p_c1Wed'),
-    c2Yochi:g('p_c2Yochi'),c2Shou:g('p_c2Shou'),c2Chu:g('p_c2Chu'),c2Koko:g('p_c2Koko'),c2Dai:g('p_c2Dai'),c2Wed:g('p_c2Wed'),
+    c1Yochi:g('p_c1Yochi'),c1Shou:g('p_c1Shou'),c1Chu:g('p_c1Chu'),
+    c1Koko:g('p_c1Koko'),c1Dai:g('p_c1Dai'),c1Wed:g('p_c1Wed'),
+    c2Yochi:g('p_c2Yochi'),c2Shou:g('p_c2Shou'),c2Chu:g('p_c2Chu'),
+    c2Koko:g('p_c2Koko'),c2Dai:g('p_c2Dai'),c2Wed:g('p_c2Wed'),
     fps,
     shortInit:g('p_shortInit'),nisaInit:g('p_nisaInit'),iDeCoInit:g('p_iDeCoInit'),
     nisaMon:g('p_nisaMon'),idecoMon:g('p_idecoMon'),dcCorp:g('p_dcCorp'),
@@ -439,77 +547,116 @@ function readParams(){
     penSkiso:g('p_penSkiso'),penSkose:g('p_penSkose'),
     carMonthly:g('p_carMonthly'),carYears:gi('p_carYears'),
     carStartAge:gi('p_carStartAge'),carCycle:gi('p_carCycle'),carEndAge:gi('p_carEndAge'),
-    inflation:g('p_inflation')/100,
   };
 }
 
-function calcTaxAndSocSec(income, age, isPension = false) {
-  let shk = 0, empDed = 0;
-  if (isPension) {
-    shk = income * 0.07; 
-    empDed = age >= 65 ? 110 : 60; 
+// ── より正確な税金・社会保険料計算（130万の壁と扶養控除を反映） ──
+function calcTaxShk(income, isEmployed, age, childAges = []){
+  if(income<=0)return{tax:0,shk:0};
+
+  // 社会保険料
+  let shk=0;
+  if(isEmployed){
+    if (income < 130) {
+      shk = 0; // 130万未満は扶養内として社会保険料0
+    } else {
+      shk=Math.min(income*0.15,175);
+    }
   } else {
-    shk = Math.min(income * 0.15, 160); 
-    if (income <= 162.5) empDed = Math.max(55, income * 0.4 - 10);
-    else if (income <= 180) empDed = income * 0.4 - 10;
-    else if (income <= 360) empDed = income * 0.3 + 8;
-    else if (income <= 660) empDed = income * 0.2 + 44;
-    else if (income <= 850) empDed = income * 0.1 + 110;
-    else empDed = 195; 
+    shk=income*(age>=65?0.09:0.07);
   }
-  const taxable = Math.max(0, income - empDed - shk - 48);
-  
-  let inTax = 0;
-  if (taxable <= 195) inTax = taxable * 0.05;
-  else if (taxable <= 330) inTax = taxable * 0.10 - 9.75;
-  else if (taxable <= 695) inTax = taxable * 0.20 - 42.75;
-  else if (taxable <= 900) inTax = taxable * 0.23 - 63.6;
-  else if (taxable <= 1800) inTax = taxable * 0.33 - 153.6;
-  else if (taxable <= 4000) inTax = taxable * 0.40 - 279.6;
-  else inTax = taxable * 0.45 - 479.6;
-  
-  const resTax = taxable * 0.10; 
-  return { tax: inTax + resTax, shk: shk };
+
+  // 給与所得控除・公的年金等控除
+  let empDed=0;
+  if(isEmployed){
+    if(income<=162.5)empDed=55;
+    else if(income<=180)empDed=income*0.4-10;
+    else if(income<=360)empDed=income*0.3+8;
+    else if(income<=660)empDed=income*0.2+44;
+    else if(income<=850)empDed=income*0.1+110;
+    else empDed=195;
+  } else {
+    empDed=age>=65?(income<=330?110:income<=410?income*0.25+27.5:income<=770?income*0.15+68.5:income<=1000?income*0.05+145.5:195.5)
+                 :(income<=130?60:income<=410?income*0.25+27.5:income<=770?income*0.15+68.5:income<=1000?income*0.05+145.5:195.5);
+  }
+
+  // 扶養控除の計算
+  let childDedIn = 0;
+  let childDedRes = 0;
+  for(let ca of childAges) {
+    if (ca >= 16 && ca <= 18) { childDedIn += 38; childDedRes += 33; }
+    else if (ca >= 19 && ca <= 22) { childDedIn += 63; childDedRes += 45; }
+  }
+
+  // 課税所得の算出
+  const taxableIn=Math.max(0,income-empDed-shk-48-childDedIn);
+  const taxableRes=Math.max(0,income-empDed-shk-43-childDedRes);
+
+  // 所得税（超過累進）
+  let inTax=0;
+  if(taxableIn<=195)inTax=taxableIn*0.05;
+  else if(taxableIn<=330)inTax=taxableIn*0.10-9.75;
+  else if(taxableIn<=695)inTax=taxableIn*0.20-42.75;
+  else if(taxableIn<=900)inTax=taxableIn*0.23-63.6;
+  else if(taxableIn<=1800)inTax=taxableIn*0.33-153.6;
+  else if(taxableIn<=4000)inTax=taxableIn*0.40-279.6;
+  else inTax=taxableIn*0.45-479.6;
+  inTax=Math.max(0,inTax)*1.021; 
+
+  // 住民税（10%）
+  const resTax=taxableRes*0.10; 
+
+  return{tax:Math.round(inTax+resTax),shk:Math.round(shk)};
 }
 
+// ── メイン計算 ──
 function calc(P){
   const N=57,am=[],as=[],ac1=[],ac2=[],yr=[];
-  for(let i=0;i<N;i++){yr.push(2026+i);am.push(P.ageMn+i);as.push(P.ageSp+i);
-    ac1.push(Math.max(P.ageC1+i,0));ac2.push(Math.max(P.ageC2+i,0));}
+  for(let i=0;i<N;i++){
+    yr.push(2026+i);am.push(P.ageMn+i);as.push(P.ageSp+i);
+    ac1.push(P.ageC1+i);ac2.push(P.ageC2+i); // マイナス年齢を許容
+  }
   const rm=P.rateM,rl=P.rateL;
-  
+
   const incM=am.map(a=>a>P.retireMn?0:a>=60?P.inc5:a>=52?P.inc4:a>=42?P.inc3:a>=36?P.inc2:P.inc1);
   const incS=as.map(a=>(a>=P.startSp&&a<=P.retireSp)?P.incSp:0);
   const penM=am.map(a=>a>=P.pensionStart?P.penMkiso+P.penMkose:0);
   const penS=as.map(a=>a>=P.pensionStart?P.penSkiso+P.penSkose:0);
   const allow=ac1.map((c1,i)=>(c1>=0&&c1<=18?P.allowC1:0)+(ac2[i]>=0&&ac2[i]<=18?P.allowC2:0));
-  
-  const eduF=(ag,p)=>ag.map(a=>a>=4&&a<=6?p.y/3:a>=7&&a<=12?p.s/6:a>=13&&a<=15?p.c/3:a>=16&&a<=18?p.k/3:a>=19&&a<=22?p.d/4:0);
+
+  const eduF=(ag,p)=>ag.map(a=>
+    a>=4&&a<=6?p.y/3:a>=7&&a<=12?p.s/6:a>=13&&a<=15?p.c/3:a>=16&&a<=18?p.k/3:a>=19&&a<=22?p.d/4:0);
   const e1=eduF(ac1,{y:P.c1Yochi,s:P.c1Shou,c:P.c1Chu,k:P.c1Koko,d:P.c1Dai});
   const e2=eduF(ac2,{y:P.c2Yochi,s:P.c2Shou,c:P.c2Chu,k:P.c2Koko,d:P.c2Dai});
   const w1=ac1.map(a=>a===29?P.c1Wed:0),w2=ac2.map(a=>a===31?P.c2Wed:0);
   const edu=e1.map((v,i)=>Math.round(v+e2[i]+w1[i]+w2[i]));
-  
-  const fp=am.map(a=>P.fps.reduce((s,ev)=>ev.c===0?s+(a===ev.s?ev.a:0):a>=ev.s&&a<=ev.e&&(a-ev.s)%ev.c===0?s+ev.a:s,0));
-  
-  const curLivAnn = (P.food + P.daily + P.util) * 12;
-  const oldLivAnn = P.livingOldMon * 12;
-  const liv = am.map(a => a >= P.pensionStart ? oldLivAnn : curLivAnn);
-  
+
+  const fp=am.map(a=>P.fps.reduce((s,ev)=>
+    ev.c===0?s+(a===ev.s?ev.a:0):a>=ev.s&&a<=ev.e&&(a-ev.s)%ev.c===0?s+ev.a:s,0));
+
+  const curLivAnn=(P.food+P.daily+P.util)*12;
+  const kidsGoneAnn=P.livingKidsMon*12;
+  const oldLivAnn=P.livingOldMon*12;
+  const kidsGoneAge=P.ageMn+(22-Math.min(P.ageC1,P.ageC2));
+  const liv=am.map(a=>
+    a>=P.pensionStart?oldLivAnn:
+    a>=kidsGoneAge?kidsGoneAnn:
+    curLivAnn);
+
   const hou=am.map(a=>{
-    if (a < P.houseBuyAge) return P.rentPre;
-    let cost = 0;
-    if (a === P.houseBuyAge) cost += P.houseInitial;
-    if (a >= P.houseBuyAge && a < P.houseBuyAge + 35) cost += P.loanAnn;
-    if (a >= P.houseBuyAge) cost += P.maint;
+    if(a<P.houseBuyAge)return P.rentPre;
+    let cost=0;
+    if(a===P.houseBuyAge)cost+=P.houseInitial; 
+    if(a>=P.houseBuyAge&&a<P.houseBuyAge+P.loanYears)cost+=P.loanAnn;
+    if(a>=P.houseBuyAge)cost+=P.maint;
     return cost;
   });
-  
+
   const cM=am.map(a=>Math.round(P.mexp.reduce((s,ex)=>a>=ex.s&&a<=ex.e?s+ex.p*12:s,0)));
   const cS=as.map(a=>Math.round(P.sexp.reduce((s,ex)=>a>=ex.s&&a<=ex.e?s+ex.p*12:s,0)));
-  
+
   const carLoan=am.map(a=>{
-    let total=0, buyAge=P.carStartAge;
+    let total=0,buyAge=P.carStartAge;
     while(buyAge<=P.carEndAge){
       if(a>=buyAge&&a<buyAge+P.carYears)total+=P.carMonthly*12;
       buyAge+=P.carCycle;
@@ -517,109 +664,190 @@ function calc(P){
     }
     return Math.round(total);
   });
-  
-  const inv=am.map(a=>a<=P.retireMn?(P.nisaMon+P.idecoMon)*12:0);
-  
-  const tax=[], shk=[];
-  for(let i=0;i<N;i++){
-    let tTax = 0, tShk = 0;
-    if(incM[i]>0){ const r = calcTaxAndSocSec(incM[i], am[i], false); tTax+=r.tax; tShk+=r.shk; }
-    if(penM[i]>0){ const r = calcTaxAndSocSec(penM[i], am[i], true); tTax+=r.tax; tShk+=r.shk; }
-    if(incS[i]>0){ const r = calcTaxAndSocSec(incS[i], as[i], false); tTax+=r.tax; tShk+=r.shk; }
-    if(penS[i]>0){ const r = calcTaxAndSocSec(penS[i], as[i], true); tTax+=r.tax; tShk+=r.shk; }
-    
-    // 住宅ローン控除の適用（税金からマイナスする。0を下回らないようにする）
-    let deduction = 0;
-    if (am[i] >= P.houseBuyAge && am[i] < P.houseBuyAge + P.loanDedYrs) {
-      deduction = P.loanDed;
-    }
-    tTax = Math.max(0, tTax - deduction);
 
-    tax.push(Math.round(tTax));
-    shk.push(Math.round(tShk));
+  const inv=am.map(a=>a<=P.retireMn?(P.nisaMon+P.idecoMon)*12:0);
+  const insurArr=am.map(a=>a<=65?P.insurAnn:0);
+
+  const taxArr=[],shkArr=[];
+  const LOAN_RATE = 0.007; 
+  let currentLoanBalance = calcMaxLoan(P.loanAnn, P.loanYears, LOAN_RATE);
+
+  for(let i=0;i<N;i++){
+    let tTax=0,tShk=0;
+    // メインの収入計算時に子供の年齢を渡して扶養控除を適用
+    if(incM[i]>0){const r=calcTaxShk(incM[i],true,am[i], [ac1[i], ac2[i]]);tTax+=r.tax;tShk+=r.shk;}
+    if(incS[i]>0){const r=calcTaxShk(incS[i],true,as[i]);tTax+=r.tax;tShk+=r.shk;}
+    if(penM[i]>0){const r=calcTaxShk(penM[i],false,am[i]);tTax+=r.tax;tShk+=r.shk;}
+    if(penS[i]>0){const r=calcTaxShk(penS[i],false,as[i]);tTax+=r.tax;tShk+=r.shk;}
+
+    if (am[i] >= P.houseBuyAge && am[i] < P.houseBuyAge + 13 && currentLoanBalance > 0) {
+      const deduction = Math.min(currentLoanBalance * 0.007, 35);
+      tTax = Math.max(0, tTax - deduction); 
+    }
+
+    if (am[i] >= P.houseBuyAge && currentLoanBalance > 0) {
+      const interest = currentLoanBalance * LOAN_RATE;
+      const principal = P.loanAnn - interest;
+      currentLoanBalance -= principal;
+      if (currentLoanBalance < 0) currentLoanBalance = 0;
+    }
+
+    taxArr.push(tTax);shkArr.push(tShk);
   }
 
   let lp=P.iDeCoInit,sp=P.shortInit,mp=P.nisaInit;
   const irecv=[],na=[],ia=[],sa=[],ta=[];
   for(let i=0;i<N;i++){
     const a=am[i],fl=a<=P.retireMn;
-    if(a>=P.pensionStart){irecv.push(Math.round(lp*(1+rl))+P.dcCorp);ia.push(0);lp=0;}
-    else{irecv.push(0);const nl=Math.round((lp+(fl?P.idecoMon*12:0))*(1+rl));ia.push(nl);lp=nl;}
-    const nm=Math.round((mp+(fl?P.nisaMon*12:0))*(1+rm));na.push(nm);mp=nm;
+    const nisa_add=fl?P.nisaMon*12:0;
+    const ideco_add=fl?P.idecoMon*12:0;
+
+    if(a===P.pensionStart){
+      // 期中積立分の利息を1/2として計算
+      const recv=Math.round((lp*(1+rl)) + (ideco_add*(1+rl/2))) + P.dcCorp;
+      irecv.push(recv);
+      ia.push(0); 
+      lp=0;
+    } else if(a>P.pensionStart){
+      irecv.push(0);
+      ia.push(0);
+    } else {
+      irecv.push(0);
+      const nl=Math.round((lp*(1+rl)) + (ideco_add*(1+rl/2)));
+      ia.push(nl);
+      lp=nl;
+    }
+
+    // 期中積立分の利息を1/2として計算
+    const nm=Math.round((mp*(1+rm)) + (nisa_add*(1+rm/2)));
+    na.push(nm);mp=nm;
+
     const inc=incM[i]+penM[i]+penS[i]+irecv[i]+incS[i]+allow[i];
-    const exp = liv[i] + hou[i] + edu[i] + fp[i] + cM[i] + cS[i] + carLoan[i] + inv[i] + tax[i] + shk[i];
-    
-    const ns=sp+(inc-exp);sa.push(ns);sp=ns;
+    const exp=liv[i]+hou[i]+edu[i]+fp[i]+cM[i]+cS[i]+carLoan[i]+inv[i]+insurArr[i]+taxArr[i]+shkArr[i];
+    const ns=sp+(inc-exp);
+    sa.push(ns);sp=ns;
     ta.push(ns+nm+ia[i]);
   }
+
   const incA=am.map((_,i)=>incM[i]+penM[i]+penS[i]+irecv[i]+incS[i]+allow[i]);
-  const expA=am.map((_,i)=>liv[i]+hou[i]+edu[i]+fp[i]+cM[i]+cS[i]+carLoan[i]+inv[i]+tax[i]+shk[i]);
-  return{yr,am,as,ac1,ac2,incM,penM,penS,irecv,incS,allow,liv,hou,edu,fp,inv,tax,shk,
-    nisa:na,ideco:ia,short:sa,total:ta,incA,expA,bal:incA.map((v,i)=>v-expA[i])};
+  const expA=am.map((_,i)=>liv[i]+hou[i]+edu[i]+fp[i]+cM[i]+cS[i]+carLoan[i]+inv[i]+insurArr[i]+taxArr[i]+shkArr[i]);
+  return{yr,am,as,ac1,ac2,incM,penM,penS,irecv,incS,allow,liv,hou,edu,fp,
+    taxArr,shkArr,nisa:na,ideco:ia,short:sa,total:ta,incA,expA,
+    bal:incA.map((v,i)=>v-expA[i])};
 }
 
-const fmt=n=>{if(n==null)return'—';const a=Math.abs(Math.round(n));
+const fmt=n=>{
+  if(n==null)return'—';
+  const a=Math.abs(Math.round(n));
   const s=a>=10000?(a/10000).toFixed(1)+'億':a>=1000?(a/1000).toFixed(1)+'千万':a+'万';
-  return n<0?'-'+s:s;};
+  return n<0?'-'+s:s;
+};
 
-let D;
-let ch1=null,ch2=null;
+let D,ch1=null,ch2=null;
 
+// ── KPI ──
 function renderKPI(){
   const P=readParams();
   const i65=D.am.findIndex(a=>a===65);
   const t65=i65>=0?D.total[i65]:0;
   const defY=D.bal.filter(b=>b<0).length;
-
-  const i_buy = Math.max(0, D.am.findIndex(a => a === P.houseBuyAge));
-  const inc_buy = D.incM[i_buy] + D.incS[i_buy]; 
-  const safe_ann = inc_buy * 0.20; 
-  
-  const total_35 = safe_ann * 35;
-  const total_50 = safe_ann * 50;
-
-  const getPrin = (ann, y, rate) => {
-    const r = rate/12; const n = y*12; const pmt = ann/12;
-    return pmt * (1 - Math.pow(1+r, -n)) / r;
-  };
-  const prin_35 = getPrin(safe_ann, 35, 0.01);
-  const prin_50 = getPrin(safe_ann, 50, 0.01);
-
-  document.getElementById('kpis').innerHTML=`
-    <div class="kpi"><div class="kpi-label">65歳 金融資産</div>
-      <div class="kpi-val ${t65>5000?'pos':t65>2000?'neu':'neg'}">${fmt(t65)}</div>
-      <div class="kpi-note">NISA+iDeCo+預金</div></div>
-    <div class="kpi"><div class="kpi-label">収支赤字 年数</div>
-      <div class="kpi-val ${defY===0?'pos':defY<5?'neu':'neg'}">${defY}年</div>
-      <div class="kpi-note">年間収支がマイナスの年</div></div>
-    <div class="kpi"><div class="kpi-label">35年ローン 無理のない返済総額</div>
-      <div class="kpi-val pos">${fmt(total_35)}</div>
-      <div class="kpi-note">借入目安: ${fmt(prin_35)} (負担率20%・金利1%)</div></div>
-    <div class="kpi"><div class="kpi-label">50年ローン 無理のない返済総額</div>
-      <div class="kpi-val pos">${fmt(total_50)}</div>
-      <div class="kpi-note">借入目安: ${fmt(prin_50)} (負担率20%・金利1%)</div></div>`;
-      
-  let al='';
   const minS=Math.min(...D.short);
-  if(minS<0)al+=`<div class="alert alert-r"><span class="alert-icon">!</span>預金残高がマイナスになる年があります（底値 ${fmt(minS)}）</div>`;
-  if(t65>8000)al+=`<div class="alert alert-g"><span class="alert-icon">✓</span>65歳時の資産 ${fmt(t65)} は十分な水準です</div>`;
-  document.getElementById('alerts').innerHTML=al;
+  const RATE=0.007;
+
+  const iBuy=D.am.findIndex(a=>a===P.houseBuyAge);
+  const downPayment=Math.round(P.shortInit*0.5/10)*10;
+  const incAtBuy=iBuy>=0?D.incM[iBuy]+(D.incS[iBuy]||0):0;
+
+  function calcAffordable(){
+    if(iBuy<0||D.am.length<=iBuy)return 0;
+    const endIdx=Math.min(iBuy+35, D.am.length);
+    const surpluses=[];
+    for(let i=iBuy;i<endIdx;i++){
+      if(D.am[i]>=P.pensionStart)continue;
+      const normalInc=D.incM[i]+D.incS[i]+D.allow[i];
+      const takehome=normalInc-D.taxArr[i]-D.shkArr[i];
+      const houAdj=P.maint; 
+      const expNoHou=D.expA[i]-D.hou[i]+houAdj-D.taxArr[i]-D.shkArr[i]-D.fp[i]-D.edu[i];
+      surpluses.push(takehome-expNoHou);
+    }
+    if(surpluses.length===0)return 0;
+    surpluses.sort((a,b)=>a-b);
+    const EXCLUDE=5;
+    const minVal=surpluses[Math.min(EXCLUDE, surpluses.length-1)];
+    return Math.max(0, Math.floor(minVal/10)*10);
+  }
+
+  const annByIncome=Math.floor(incAtBuy*0.25/10)*10;
+  const annAfford=calcAffordable();
+
+  const lA=calcMaxLoan(annAfford,35,RATE), pA=lA+downPayment;
+  const lB=calcMaxLoan(annByIncome,35,RATE), pB=lB+downPayment;
+
+  const gap=pB-pA;
+  const gapMsg=gap>0
+    ?`生活ベースは年収ベースより${fmt(gap)}低い。支出の見直し余地あり`
+    :`生活ベースが年収ベース以上。現状の支出水準でも無理がない`;
+  const gapColor=gap>0?'var(--amber)':'var(--grn)';
+
+  const t65c=t65>5000?'pos':t65>2000?'neu':'neg';
+  const defC=defY===0?'pos':defY<5?'neu':'neg';
+  
+  // 出力先を kpis（タブ下の4列グリッド）に変更
+  document.getElementById('kpis').innerHTML=`
+    <div class="hkpi"><div class="hkpi-l">65歳 資産</div><div class="hkpi-v ${t65c}">${fmt(t65)}</div></div>
+    <div class="hkpi"><div class="hkpi-l">赤字年数</div><div class="hkpi-v ${defC}">${defY}年</div></div>
+    <div class="hkpi"><div class="hkpi-l">生活ベース</div><div class="hkpi-v neu">${pA>0?fmt(pA):'—'}</div></div>
+    <div class="hkpi"><div class="hkpi-l">年収比25%</div><div class="hkpi-v neu">${pB>0?fmt(pB):'—'}</div></div>`;
+
+  const rows=[];
+  if(minS<0) rows.push(`<div class="alert-row alert-r"><span class="alert-dot dot-r"></span>預金残高が最低 ${fmt(minS)} になる年があります。積立の増額や支出削減を検討してください</div>`);
+  if(t65>8000) rows.push(`<div class="alert-row alert-g"><span class="alert-dot dot-g"></span>65歳時の資産 ${fmt(t65)} は十分な水準です</div>`);
+  if(pA>0&&pB>0) rows.push(`<div class="alert-row ${gap>0?'alert-a':'alert-g'}"><span class="alert-dot ${gap>0?'dot-a':'dot-g'}"></span>${gapMsg}（生活: ${fmt(pA)} ／ 年収比: ${fmt(pB)}）</div>`);
+  
+  document.getElementById('alerts').innerHTML=rows.length
+    ?`<div class="alert-bar">${rows.join('')}</div>`:'';
 }
 
+// ── グラフ描画 ──
 function renderGraphs(){
   const el=document.getElementById('graph');
-  const SHOW=36;
-  const lbs=D.am.slice(0,SHOW).map((a,i)=>i%4===0?a+'歳':'');
+  const P=readParams();
+  const SHOW=40;
+  const lbs=D.am.slice(0,SHOW).map(a=>a+'歳');
   const dk=matchMedia('(prefers-color-scheme:dark)').matches;
-  const axC=dk?'#888':'#aaa',gC=dk?'#2a2a2a':'#ebebeb';
-  const base={responsive:true,maintainAspectRatio:false,animation:{duration:400,easing:'easeOutQuart'},
+  const axC=dk?'#888':'#aaa', gC=dk?'#2a2a2a':'#ebebeb';
+  const baseOpt={
+    responsive:true, maintainAspectRatio:false,
+    animation:{duration:400,easing:'easeOutQuart'},
     interaction:{mode:'index',intersect:false},
-    plugins:{legend:{display:false},tooltip:{backgroundColor:dk?'rgba(28,28,30,0.9)':'rgba(255,255,255,0.9)',
-      titleColor:dk?'#eee':'#333',bodyColor:dk?'#ccc':'#555',
-      borderColor:dk?'#444':'#e5e5ea',borderWidth:1,padding:10,cornerRadius:8,
-      callbacks:{label:c=>` ${c.dataset.label}: ${Math.round(c.raw).toLocaleString()}万`}}},
-    scales:{x:{ticks:{color:axC,font:{size:11}},grid:{color:gC}},
-      y:{ticks:{color:axC,font:{size:11},callback:v=>v===0?'0':Math.round(v/100)*100},grid:{color:gC}}}};
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        backgroundColor:dk?'rgba(28,28,30,.92)':'rgba(255,255,255,.95)',
+        titleColor:dk?'#eee':'#333', bodyColor:dk?'#ccc':'#555',
+        borderColor:dk?'#444':'#e5e5ea', borderWidth:1, padding:12, cornerRadius:10,
+        callbacks:{label:c=>` ${c.dataset.label}: ${Math.round(c.raw).toLocaleString()}万`}
+      }
+    },
+    scales:{
+      x:{ticks:{color:axC,font:{size:10},maxTicksLimit:10,autoSkip:true,
+          callback:(val,i)=>{
+            const age=D.am[i];
+            if(age===P.retireMn)return age+'歳★退職';
+            if(age===P.pensionStart)return age+'歳★年金';
+            return age+'歳';
+          }},grid:{color:gC}},
+      y:{ticks:{color:axC,font:{size:11},callback:v=>v===0?'0':Math.round(v/100)*100},grid:{color:gC}}
+    }
+  };
+
+  const usableAsset=D.am.slice(0,SHOW).map((a,i)=>
+    a<P.pensionStart ? D.short[i]+D.nisa[i] : D.total[i]);
+
+  const initUsable=P.shortInit+P.nisaInit;
+  const assetDelta=usableAsset.map((v,i)=>
+    i===0 ? v-initUsable : v-usableAsset[i-1]);
+
   el.innerHTML=`
     <div class="chart-card">
       <div class="chart-title">年度別収支</div>
@@ -631,6 +859,15 @@ function renderGraphs(){
       <div class="chart-wrap"><canvas id="c1"></canvas></div>
     </div>
     <div class="chart-card">
+      <div class="chart-title">使える資産の増減（65歳前はiDeCo除く）</div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-dot" style="background:rgba(52,199,89,.6)"></span>増加</span>
+        <span class="leg-item"><span class="leg-dot" style="background:rgba(255,59,48,.5)"></span>減少</span>
+        <span class="leg-item"><span class="leg-dot" style="background:${dk?'#5b9ee8':'#378add'}"></span>残高</span>
+      </div>
+      <div class="chart-wrap"><canvas id="c2"></canvas></div>
+    </div>
+    <div class="chart-card">
       <div class="chart-title">金融資産残高推移</div>
       <div class="legend">
         <span class="leg-item"><span class="leg-dot" style="background:rgba(52,199,89,.6)"></span>NISA</span>
@@ -638,70 +875,159 @@ function renderGraphs(){
         <span class="leg-item"><span class="leg-dot" style="background:rgba(142,142,147,.4)"></span>預金</span>
         <span class="leg-item"><span class="leg-dot" style="background:${dk?'#f2f2f7':'#1c1c1e'}"></span>合計</span>
       </div>
-      <div class="chart-wrap"><canvas id="c2"></canvas></div>
+      <div class="chart-wrap"><canvas id="c3"></canvas></div>
     </div>`;
+
   if(ch1)ch1.destroy(); if(ch2)ch2.destroy();
+  if(window._ch3)window._ch3.destroy();
+
   ch1=new Chart(document.getElementById('c1'),{type:'bar',data:{labels:lbs,datasets:[
     {label:'収入',data:D.incA.slice(0,SHOW),backgroundColor:'rgba(0,122,255,.5)',borderRadius:2,order:2},
     {label:'支出',data:D.expA.slice(0,SHOW),backgroundColor:'rgba(255,59,48,.4)',borderRadius:2,order:3},
     {label:'収支',data:D.bal.slice(0,SHOW),type:'line',borderColor:dk?'#30d158':'#34c759',
-      backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:0.1,order:1}
-  ]},options:{...base}});
+      backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:.1,order:1}
+  ]},options:{...baseOpt}});
+
   ch2=new Chart(document.getElementById('c2'),{type:'bar',data:{labels:lbs,datasets:[
+    {label:'増加',data:assetDelta.map(v=>v>=0?v:0),
+      backgroundColor:'rgba(52,199,89,.55)',borderRadius:2,order:2},
+    {label:'減少',data:assetDelta.map(v=>v<0?v:0),
+      backgroundColor:'rgba(255,59,48,.45)',borderRadius:2,order:2},
+    {label:'残高',data:usableAsset,type:'line',
+      borderColor:dk?'#5b9ee8':'#378add',borderWidth:2,
+      pointRadius:0,fill:false,tension:.1,order:1}
+  ]},options:{...baseOpt,
+    scales:{
+      x:{ticks:{color:axC,font:{size:11}},grid:{color:gC}},
+      y:{
+        ticks:{color:axC,font:{size:10},
+          callback:v=>Math.abs(v)>=10000?(v/10000).toFixed(1)+'億':
+                      Math.abs(v)>=1000?(v/1000).toFixed(1)+'千万':v+'万'},
+        grid:{color:gC},
+      }
+    }
+  }});
+
+  window._ch3=new Chart(document.getElementById('c3'),{type:'bar',data:{labels:lbs,datasets:[
     {label:'NISA',data:D.nisa.slice(0,SHOW),backgroundColor:'rgba(52,199,89,.6)',stack:'s'},
     {label:'iDeCo',data:D.ideco.slice(0,SHOW),backgroundColor:'rgba(88,86,214,.6)',stack:'s'},
     {label:'預金',data:D.short.slice(0,SHOW).map(v=>Math.max(v,0)),backgroundColor:'rgba(142,142,147,.3)',stack:'s'},
     {label:'合計',data:D.total.slice(0,SHOW),type:'line',borderColor:dk?'#f2f2f7':'#1c1c1e',
-      borderWidth:2,pointRadius:0,fill:false,tension:0.1}
-  ]},options:{...base,scales:{...base.scales,x:{...base.scales.x,stacked:true},y:{...base.scales.y,stacked:true}}}});
+      borderWidth:2,pointRadius:0,fill:false,tension:.1}
+  ]},options:{...baseOpt,scales:{...baseOpt.scales,
+    x:{...baseOpt.scales.x,stacked:true},y:{...baseOpt.scales.y,stacked:true}}}});
 }
 
+// ── 収支表 ──
 function renderTable(){
   const P=readParams();
   const SHOW=32;
   const rows=[
-    {l:'家族代表収入',k:'incM',c:'tbl-pos'},{l:'配偶者収入',k:'incS',c:'tbl-pos'},
-    {l:'公的年金',k:'penM',c:'tbl-pos'},{l:'iDeCo受取',k:'irecv',c:'tbl-pos'},
-    {l:'生活費',k:'liv',c:'tbl-neg'},{l:'住宅',k:'hou',c:'tbl-neg'},
-    {l:'教育費',k:'edu',c:'tbl-neg'},{l:'将来プラン',k:'fp',c:'tbl-neg'},
-    {l:'税金・社保',k:'tax',c:'tbl-neg'},
-    {l:'NISA残高',k:'nisa',c:'tbl-pos'},{l:'預金残高',k:'short',c:'tbl-pos'},
+    {l:'家族代表収入',k:'incM',c:'tbl-pos'},
+    {l:'配偶者収入',k:'incS',c:'tbl-pos'},
+    {l:'公的年金',k:'penM',c:'tbl-pos'},
+    {l:'iDeCo受取',k:'irecv',c:'tbl-pos'},
+    {l:'生活費',k:'liv',c:'tbl-neg'},
+    {l:'住宅費（家賃/ローン/維持費）',k:'hou',c:'tbl-neg'},
+    {l:'教育費',k:'edu',c:'tbl-neg'},
+    {l:'将来プラン',k:'fp',c:'tbl-neg'},
+    {l:'税金・社会保険料',k:'__taxshk',c:'tbl-neg'},
+    {l:'NISA残高',k:'nisa',c:'tbl-pos'},
+    {l:'iDeCo残高',k:'ideco',c:'tbl-pos'},
+    {l:'預金残高',k:'short',c:''},
     {l:'金融資産計',k:'total',c:''},
   ];
-  const ths=D.am.slice(0,SHOW).map((a,i)=>`<th style="${a===65?'color:var(--grn)':a>=P.pensionStart?'color:var(--acc)':''}">${a}歳<br><span style="font-size:10px;opacity:.6;font-weight:400;">'${String(D.yr[i]).slice(2)}</span></th>`).join('');
+  const ths=D.am.slice(0,SHOW).map((a,i)=>`<th style="${a===65?'color:var(--grn)':a>=P.pensionStart?'color:var(--acc)':''}">${a}歳<br><span style="font-size:10px;opacity:.6;font-weight:400">'${String(D.yr[i]).slice(2)}</span></th>`).join('');
   const trs=rows.map(r=>{
-    let arr = D[r.k];
-    if (r.k === 'tax') arr = D.tax.map((t,i) => t + D.shk[i]);
-    const tds=arr.slice(0,SHOW).map(v=>`<td class="${v<0?'tbl-neg':v>0&&r.c?r.c:''}">${v===0?'—':Math.round(v).toLocaleString()}</td>`).join('');
+    const arr=r.k==='__taxshk'
+      ?D.taxArr.map((t,i)=>t+D.shkArr[i])
+      :D[r.k];
+    const tds=arr.slice(0,SHOW).map((v,i)=>{
+      const note=(r.k==='hou'&&D.am[i]===P.houseBuyAge&&P.houseInitial>0)?' *':'';
+      return`<td class="${v<0?'tbl-neg':v>0&&r.c?r.c:''}" title="${note?'購入初期費用込':''}">${v===0?'—':Math.round(v).toLocaleString()}${note}</td>`;
+    }).join('');
     return`<tr><td>${r.l}</td>${tds}</tr>`;
   }).join('');
   const bals=D.bal.slice(0,SHOW).map(v=>`<td class="${v<0?'tbl-neg':'tbl-pos'}">${Math.round(v).toLocaleString()}</td>`).join('');
-  document.getElementById('table').innerHTML=`<div class="tbl-card"><div class="tbl-scroll">
-    <table><thead><tr><th>項目 ＼ 年齢</th>${ths}</tr></thead>
-    <tbody>${trs}<tr class="tbl-bal"><td>年度別収支</td>${bals}</tr></tbody></table>
-  </div></div>`;
+  document.getElementById('table').innerHTML=`
+    <div style="font-size:12px;color:var(--sub);padding:10px 16px;background:var(--card);border-radius:var(--r) var(--r) 0 0">
+      住宅費の「*」は購入初期費用が含まれる年 ／ 65歳列=緑・年金開始列=青
+    </div>
+    <div class="tbl-card" style="border-radius:0 0 var(--r) var(--r)"><div class="tbl-scroll" id="tbl-scroll-inner">
+      <table><thead><tr><th>項目 ＼ 年齢</th>${ths}</tr></thead>
+      <tbody>${trs}<tr class="tbl-bal"><td>年度別収支</td>${bals}</tr></tbody></table>
+    </div></div>`;
+  setTimeout(()=>{
+    const sc=document.getElementById('tbl-scroll-inner');
+    if(sc)sc.scrollLeft=0;
+  },50);
 }
 
-function recalcFromForm(){
-  saveData();
-  D=calc(readParams());
-  renderKPI();
-  const activeTab=document.querySelector('nav button.on')?.textContent;
-  if(activeTab==='グラフ')renderGraphs();
-  else if(activeTab==='収支表')renderTable();
-}
-
+// ── タブ切替 ──
 function showTab(id,btn){
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if(id==='graph')renderGraphs();
-  else if(id==='table')renderTable();
+  if(id!=='settings'&&isDirty){
+    recalcFromForm();
+  } else {
+    if(id==='graph')renderGraphs();
+    else if(id==='table')renderTable();
+  }
 }
 
-// 初期描画
+function estimatePension(){
+  const g=id=>{const el=document.getElementById(id);return el?parseFloat(el.value)||0:0;}
+  const gi=id=>{const el=document.getElementById(id);return el?parseInt(el.value)||0:0;}
+
+  const retireMn=gi('p_retireMn'), retireSp=gi('p_retireSp');
+  const startSp=gi('p_startSp'),   incSp=g('p_incSp');
+
+  const phases=[
+    {s:22,e:Math.min(35,retireMn),ann:g('p_inc1')},
+    {s:36,e:Math.min(41,retireMn),ann:g('p_inc2')},
+    {s:42,e:Math.min(51,retireMn),ann:g('p_inc3')},
+    {s:52,e:Math.min(59,retireMn),ann:g('p_inc4')},
+    {s:60,e:retireMn,             ann:g('p_inc5')},
+  ];
+  let totalRem=0, totalMonths=0;
+  for(const ph of phases){
+    if(ph.e<ph.s)continue;
+    const months=(ph.e-ph.s+1)*12;
+    totalRem+=Math.min(ph.ann/12,65)*months;
+    totalMonths+=months;
+  }
+  const avgM=totalMonths>0?totalRem/totalMonths:0;
+  const koseM=Math.round(avgM*5.481/1000*totalMonths);
+  const kisoYrs=Math.min(retireMn-22,40); 
+  const kisoM=Math.round(79*kisoYrs/40);  
+
+  const spYrs=Math.max(0,retireSp-startSp+1);
+  const koseS=Math.round(Math.min(incSp/12,65)*5.481/1000*spYrs*12);
+  const kisoS=Math.round(79*Math.min(spYrs+20,40)/40);
+
+  document.getElementById('pension-est-desc').innerHTML=
+    `<b>推計値（参考）</b><br>`+
+    `家族代表: 基礎 <b>${kisoM}万</b> ＋ 厚生 <b>${koseM}万</b> ＝ 計 <b>${kisoM+koseM}万/年</b><br>`+
+    `配偶者: 基礎 <b>${kisoS}万</b> ＋ 厚生 <b>${koseS}万</b> ＝ 計 <b>${kisoS+koseS}万/年</b><br>`+
+    `<span style="color:var(--hint);font-size:10px">加入月数ベースの概算。ねんきん定期便の実績値で上書き推奨</span>`;
+}
+
+function recalcFromForm(){
+  saveData();
+  D=calc(readParams());
+  clearDirty();
+  renderKPI();
+  updateEstimatedHousePrice(); // バナーも再更新
+  const activeTab=document.querySelector('nav button.on')?.textContent;
+  if(activeTab==='グラフ')renderGraphs();
+  else if(activeTab==='収支表')renderTable();
+}
+
+// ── 初期描画 ──
 loadData();
+updateEstimatedHousePrice();
 D=calc(readParams());
 renderKPI();
 renderGraphs();
