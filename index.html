@@ -495,10 +495,22 @@ const LS_KEY='lifeplan_data', LS_VER='v9';
 function saveData(){
   try{
     const data={};
-    document.querySelectorAll('input[id]').forEach(inp=>{data[inp.id]=inp.value;});
+    document.querySelectorAll('input[id],textarea[id]').forEach(inp=>{data[inp.id]=inp.value;});
     localStorage.setItem(LS_KEY+'_'+LS_VER,JSON.stringify(data));
   }catch(e){console.warn('保存失敗',e);}
 }
+function syncHouseDisp(){
+  // ロード後・計算後に hidden input の値を表示 span に同期
+  const init=document.getElementById('p_houseInitial');
+  const initDisp=document.getElementById('p_houseInitial_disp');
+  if(init&&initDisp&&parseFloat(init.value)>0)
+    initDisp.textContent=parseFloat(init.value).toLocaleString();
+  const mon=document.getElementById('p_loanMon');
+  const monDisp=document.getElementById('p_loanMon_disp');
+  if(mon&&monDisp&&parseFloat(mon.value)>0)
+    monDisp.textContent=parseFloat(mon.value);
+}
+
 function loadData(){
   try{
     ['','_v1','_v2','_v3','_v4','_v5','_v6','_v7','_v8'].forEach(v=>{
@@ -508,6 +520,7 @@ function loadData(){
     if(!saved)return;
     const data=JSON.parse(saved);
     Object.keys(data).forEach(id=>{const el=document.getElementById(id);if(el)el.value=data[id];});
+    syncHouseDisp();
   }catch(e){console.warn('読み込み失敗',e);}
 }
 function resetData(){
@@ -916,32 +929,33 @@ function applyHouseSim(){
   const misc=Math.round(price*miscPct/10)*10;              // 諸費用
   const loanAmt=price-downAmt;                             // ローン元金
 
-  // 元利均等のローン年間返済額を計算
+  // 元利均等の月額・年間返済額を計算
   const r=rate/12, n=loanYears*12;
-  let annLoan=0;
+  let monthlyPmt=0;
   if(r>0){
-    const monthlyPmt=loanAmt*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-    annLoan=Math.round(monthlyPmt*12/10)*10;
+    monthlyPmt=loanAmt*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
   } else {
-    annLoan=Math.round(loanAmt/loanYears/10)*10;
+    monthlyPmt=loanAmt/n;
   }
+  const monAmt=Math.round(monthlyPmt*10)/10; // 万円・0.1万単位で丸め
+  const annLoan=Math.round(monAmt*12);
 
-  // フォームに反映
+  // hidden inputに値をセット
   document.getElementById('p_houseInitial').value=downAmt+misc;
+  document.getElementById('p_loanMon').value=monAmt;
+
+  // 表示spanを更新
   const initDisp=document.getElementById('p_houseInitial_disp');
-  if(initDisp)initDisp.textContent=downAmt+misc;
-  document.getElementById('p_loanAnn').value=annLoan;
-
-  // 結果を表示
-  document.getElementById('sim_result_desc').innerHTML=
-    `頭金: <b>${downAmt}万</b> ／ 諸費用: <b>${misc}万</b> ／ ローン元金: <b>${loanAmt}万</b> ／ 月額: <b>${Math.round(annLoan/12*10)/10}万/月</b>（${loanYears}年・金利${(rate*100).toFixed(1)}%）`;
-
-  // 月額返済額の表示を更新
+  if(initDisp)initDisp.textContent=(downAmt+misc).toLocaleString();
   const monDisp=document.getElementById('p_loanMon_disp');
-  if(monDisp)monDisp.textContent=Math.round(annLoan/12*10)/10;
-  document.getElementById('p_loanMon').value=Math.round(annLoan/12*10)/10;
+  if(monDisp)monDisp.textContent=monAmt;
 
-  markDirty();
+  // 結果メッセージ
+  document.getElementById('sim_result_desc').innerHTML=
+    `頭金: <b>${downAmt.toLocaleString()}万</b>・諸費用: <b>${misc.toLocaleString()}万</b>・借入: <b>${loanAmt.toLocaleString()}万</b>・月額: <b>${monAmt}万/月</b>（${loanYears}年・${(rate*100).toFixed(1)}%）`;
+
+  // 計算・保存を実行（住宅設定が即反映される）
+  recalcFromForm();
 }
 
 function estimatePension(){
@@ -1121,6 +1135,7 @@ function recalcFromForm(){
 loadData();
 D=calc(readParams());
 renderGraphs();
+syncHouseDisp(); // ロード時にhidden inputの表示を同期
 </script>
 </body>
 </html>
