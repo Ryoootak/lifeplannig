@@ -187,12 +187,12 @@ tr:hover td{background:var(--bg)}
       <div class="group-title">収入（万円/年）</div>
       <div class="group-desc">家族代表の年収は年齢帯ごとに設定。昇給・役職変化などを反映してください</div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">年収① ～35歳</div><div class="field-desc">入社〜35歳までの年収（額面）</div></div><div class="field-input"><input type="number" id="p_inc1" value="1100" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">年収② 36〜41歳</div><div class="field-desc">昇給後の年収</div></div><div class="field-input"><input type="number" id="p_inc2" value="1135" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">年収③ 42〜51歳</div><div class="field-desc">管理職・中堅期の年収</div></div><div class="field-input"><input type="number" id="p_inc3" value="1172" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">年収④ 52〜59歳</div><div class="field-desc">年収ピーク期（役職手当含む）</div></div><div class="field-input"><input type="number" id="p_inc4" value="1329" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">年収① ～35歳</div><div class="field-desc">入社〜35歳までの年収（額面）</div></div><div class="field-input"><input type="number" id="p_inc1" value="1200" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">年収② 36〜41歳</div><div class="field-desc">昇給後の年収</div></div><div class="field-input"><input type="number" id="p_inc2" value="1300" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">年収③ 42〜51歳</div><div class="field-desc">管理職・中堅期の年収</div></div><div class="field-input"><input type="number" id="p_inc3" value="1500" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">年収④ 52〜59歳</div><div class="field-desc">年収ピーク期（役職手当含む）</div></div><div class="field-input"><input type="number" id="p_inc4" value="1500" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">年収⑤ 60歳〜退職</div><div class="field-desc">再雇用・顧問・フリーランス等での年収</div></div><div class="field-input"><input type="number" id="p_inc5" value="800" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 就労開始年齢</div><div class="field-desc">配偶者が収入を得始める年齢</div></div><div class="field-input"><input type="number" id="p_startSp" value="41" min="20" max="75"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">配偶者 就労開始年齢</div><div class="field-desc">配偶者が収入を得始める年齢</div></div><div class="field-input"><input type="number" id="p_startSp" value="40" min="20" max="75"><span class="field-unit">歳</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">配偶者 年収</div><div class="field-desc">就労開始〜退職までの年収</div></div><div class="field-input"><input type="number" id="p_incSp" value="120" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子育て手当 子1（年額）</div><div class="field-desc">児童手当・高校就学支援金等。子1が0〜18歳の期間</div></div><div class="field-input"><input type="number" id="p_allowC1" value="12"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子育て手当 子2（年額）</div><div class="field-desc">児童手当・高校就学支援金等。子2が0〜18歳の期間</div></div><div class="field-input"><input type="number" id="p_allowC2" value="12"><span class="field-unit">万円</span></div></div>
@@ -203,22 +203,22 @@ tr:hover td{background:var(--bg)}
       <div class="group-title">住宅関連（万円/年）</div>
       <div class="group-desc">購入前の家賃と、購入時の初期費用・ローンを独立して計算します</div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">購入予定年齢</div><div class="field-desc">住宅を購入し、ローン開始・初期費用が発生する年齢</div></div><div class="field-input"><input type="number" id="p_houseBuyAge" value="34" min="20" max="80"><span class="field-unit">歳</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">購入前 家賃（年間）</div><div class="field-desc">購入予定年齢に達するまでの年間家賃</div></div><div class="field-input"><input type="number" id="p_rentPre" value="180" step="5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">購入時 初期費用・頭金</div><div class="field-desc">購入する年に現金で支払う諸費用と頭金の合計</div></div><div class="field-input"><input type="number" id="p_houseInitial" value="500" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">ローン年間返済額</div><div class="field-desc">購入後、35年間続く想定の年間返済額</div></div><div class="field-input"><input type="number" id="p_loanAnn" value="187" step="5"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">購入予定年齢</div><div class="field-desc">住宅を購入し、ローン開始・初期費用が発生する年齢</div></div><div class="field-input"><input type="number" id="p_houseBuyAge" value="35" min="20" max="80"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">購入前 家賃（年間）</div><div class="field-desc">購入予定年齢に達するまでの年間家賃</div></div><div class="field-input"><input type="number" id="p_rentPre" value="192" step="1"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">購入時 初期費用・頭金</div><div class="field-desc">購入する年に現金で支払う諸費用と頭金の合計</div></div><div class="field-input"><input type="number" id="p_houseInitial" value="200" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">ローン年間返済額</div><div class="field-desc">購入後、35年間続く想定の年間返済額</div></div><div class="field-input"><input type="number" id="p_loanAnn" value="240" step="5"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">住宅維持費（年間）</div><div class="field-desc">購入後の固定資産税・修繕積立金・管理費など</div></div><div class="field-input"><input type="number" id="p_maint" value="60" step="5"><span class="field-unit">万円</span></div></div>
   </div>
 
   <div class="settings-group">
     <div class="group-header">
-      <div class="group-title">生活費・固定支出（万円/年）</div>
-      <div class="group-desc">毎年発生する固定的な支出（住宅関連を除く）</div>
+      <div class="group-title">生活費・固定支出（月額・万円）</div>
+      <div class="group-desc">毎月発生する食費・日用品・光熱費などの共通生活費を入力します</div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">現在の生活費</div><div class="field-desc">食費・日用品・光熱費等の共通生活費。現在 月11.7万×12＝140万</div></div><div class="field-input"><input type="number" id="p_livingNow" value="140" step="5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">老後の生活費</div><div class="field-desc">65歳以降。旅行・医療費増を加味。現在 月18.7万×12＝225万</div></div><div class="field-input"><input type="number" id="p_livingOld" value="225" step="5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">家族共通支出</div><div class="field-desc">通信費・車関連・外食・サブスク等</div></div><div class="field-input"><input type="number" id="p_costFam" value="145" step="5"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">保険料合計（年間）</div><div class="field-desc">生命保険・医療保険等の年間払込合計</div></div><div class="field-input"><input type="number" id="p_insurAnn" value="7"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">食費（月額）</div><div class="field-desc">4人家族で少し多めに見積もった額</div></div><div class="field-input"><input type="number" id="p_food" value="11" step="0.5"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">日用品（月額）</div><div class="field-desc">洗剤、トイレットペーパーなど消耗品</div></div><div class="field-input"><input type="number" id="p_daily" value="3" step="0.5"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">水道・光熱費（月額）</div><div class="field-desc">電気・ガス・水道代の平均</div></div><div class="field-input"><input type="number" id="p_util" value="3" step="0.5"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">老後の共通生活費（月額）</div><div class="field-desc">65歳以降の月額生活費（食費＋日用品＋光熱費）</div></div><div class="field-input"><input type="number" id="p_livingOldMon" value="15" step="0.5"><span class="field-unit">万円/月</span></div></div>
   </div>
 
   <div class="settings-group">
@@ -226,9 +226,9 @@ tr:hover td{background:var(--bg)}
       <div class="group-title">自動車ローン</div>
       <div class="group-desc">車の買い替えごとにローンを組む設定。頭金は「将来プラン」で管理</div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">ローン月額返済額</div><div class="field-desc">毎月のローン返済額（元利合計）</div></div><div class="field-input"><input type="number" id="p_carMonthly" value="4.4" step="0.1" min="0"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">ローン月額返済額</div><div class="field-desc">毎月のローン返済額（元利合計）</div></div><div class="field-input"><input type="number" id="p_carMonthly" value="4" step="0.1" min="0"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">ローン返済期間</div><div class="field-desc">1回のローンの返済年数</div></div><div class="field-input"><input type="number" id="p_carYears" value="5" min="1" max="10"><span class="field-unit">年</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">ローン開始年齢（初回）</div><div class="field-desc">最初に車を買う年齢</div></div><div class="field-input"><input type="number" id="p_carStartAge" value="36" min="25" max="70"><span class="field-unit">歳</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">ローン開始年齢（初回）</div><div class="field-desc">最初に車を買う年齢</div></div><div class="field-input"><input type="number" id="p_carStartAge" value="33" min="25" max="70"><span class="field-unit">歳</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">買い替えサイクル</div><div class="field-desc">何年ごとに買い替えるか</div></div><div class="field-input"><input type="number" id="p_carCycle" value="13" min="3" max="20"><span class="field-unit">年</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">最終買い替え年齢</div><div class="field-desc">この年齢以降は買い替えない</div></div><div class="field-input"><input type="number" id="p_carEndAge" value="62" min="40" max="80"><span class="field-unit">歳</span></div></div>
   </div>
@@ -312,14 +312,14 @@ tr:hover td{background:var(--bg)}
       <div class="group-title">資産・積立</div>
       <div class="group-desc">現在の残高と毎月の積立額。NISA・iDeCoは退職まで積立継続で計算</div>
     </div>
-    <div class="field-row"><div class="field-info"><div class="field-name">普通預金 現在残高</div><div class="field-desc">すぐ引き出せる生活防衛資金</div></div><div class="field-input"><input type="number" id="p_shortInit" value="121" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">普通預金 現在残高</div><div class="field-desc">すぐ引き出せる生活防衛資金</div></div><div class="field-input"><input type="number" id="p_shortInit" value="80" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">NISA 現在残高</div><div class="field-desc">現時点のNISA口座残高</div></div><div class="field-input"><input type="number" id="p_nisaInit" value="520" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">iDeCo 現在残高</div><div class="field-desc">現時点のiDeCo口座残高</div></div><div class="field-input"><input type="number" id="p_iDeCoInit" value="463" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">NISA 毎月積立額</div><div class="field-desc">毎月拠出する金額（年間 ×12で計算）</div></div><div class="field-input"><input type="number" id="p_nisaMon" value="5" step="0.5" min="0"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">iDeCo 毎月掛金</div><div class="field-desc">毎月の掛金（年間 ×12で計算）</div></div><div class="field-input"><input type="number" id="p_idecoMon" value="0.9" step="0.1" min="0"><span class="field-unit">万円/月</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">企業型DC 受取予定額</div><div class="field-desc">65歳時に一括受取する企業型DC（確定拠出年金）の金額</div></div><div class="field-input"><input type="number" id="p_dcCorp" value="955" step="50"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">NISA 想定運用利率</div><div class="field-desc">世界株インデックスの長期実績から保守的に3.5%を設定</div></div><div class="field-input"><input type="number" id="p_rateM" value="3.5" step="0.1" min="0" max="15"><span class="field-unit">%/年</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">iDeCo 想定運用利率</div><div class="field-desc">バランス型の長期実績から保守的に3.0%を設定</div></div><div class="field-input"><input type="number" id="p_rateL" value="3.0" step="0.1" min="0" max="15"><span class="field-unit">%/年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">企業型DC 受取予定額</div><div class="field-desc">65歳時に一括受取する企業型DC（確定拠出年金）の金額</div></div><div class="field-input"><input type="number" id="p_dcCorp" value="2000" step="50"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">NISA 想定運用利率</div><div class="field-desc">利回り設定</div></div><div class="field-input"><input type="number" id="p_rateM" value="5.0" step="0.1" min="0" max="15"><span class="field-unit">%/年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">iDeCo 想定運用利率</div><div class="field-desc">利回り設定</div></div><div class="field-input"><input type="number" id="p_rateL" value="5.0" step="0.1" min="0" max="15"><span class="field-unit">%/年</span></div></div>
   </div>
 
   <div class="settings-group">
@@ -419,11 +419,13 @@ function readParams(){
     startSp:gi('p_startSp'),
     inc1:g('p_inc1'),inc2:g('p_inc2'),inc3:g('p_inc3'),inc4:g('p_inc4'),inc5:g('p_inc5'),
     incSp:g('p_incSp'),allowC1:g('p_allowC1'),allowC2:g('p_allowC2'),
-    livingNow:g('p_livingNow'),livingOld:g('p_livingOld'),
-    // ★住宅関連項目（追加・独立）
+    
+    // 生活費（月額入力を取得）
+    food:g('p_food'), daily:g('p_daily'), util:g('p_util'), livingOldMon:g('p_livingOldMon'),
+    
     houseBuyAge:gi('p_houseBuyAge'),rentPre:g('p_rentPre'),houseInitial:g('p_houseInitial'),
     loanAnn:g('p_loanAnn'),maint:g('p_maint'),
-    costFam:g('p_costFam'),insurAnn:g('p_insurAnn'),
+    
     mexp,sexp,
     c1Yochi:g('p_c1Yochi'),c1Shou:g('p_c1Shou'),c1Chu:g('p_c1Chu'),c1Koko:g('p_c1Koko'),c1Dai:g('p_c1Dai'),c1Wed:g('p_c1Wed'),
     c2Yochi:g('p_c2Yochi'),c2Shou:g('p_c2Shou'),c2Chu:g('p_c2Chu'),c2Koko:g('p_c2Koko'),c2Dai:g('p_c2Dai'),c2Wed:g('p_c2Wed'),
@@ -439,26 +441,22 @@ function readParams(){
   };
 }
 
-// ★追加：所得税・住民税・社会保険料の累進計算ロジック
 function calcTaxAndSocSec(income, age, isPension = false) {
   let shk = 0, empDed = 0;
   if (isPension) {
-    shk = income * 0.07; // 年金からの天引き目安
-    empDed = age >= 65 ? 110 : 60; // 公的年金等控除
+    shk = income * 0.07; 
+    empDed = age >= 65 ? 110 : 60; 
   } else {
-    shk = Math.min(income * 0.15, 160); // 社会保険料（上限約160万目安）
-    // 給与所得控除の計算
+    shk = Math.min(income * 0.15, 160); 
     if (income <= 162.5) empDed = Math.max(55, income * 0.4 - 10);
     else if (income <= 180) empDed = income * 0.4 - 10;
     else if (income <= 360) empDed = income * 0.3 + 8;
     else if (income <= 660) empDed = income * 0.2 + 44;
     else if (income <= 850) empDed = income * 0.1 + 110;
-    else empDed = 195; // 上限195万円
+    else empDed = 195; 
   }
-  // 課税所得（基礎控除48万を引く）
   const taxable = Math.max(0, income - empDed - shk - 48);
   
-  // 所得税の計算（速算表）
   let inTax = 0;
   if (taxable <= 195) inTax = taxable * 0.05;
   else if (taxable <= 330) inTax = taxable * 0.10 - 9.75;
@@ -468,7 +466,7 @@ function calcTaxAndSocSec(income, age, isPension = false) {
   else if (taxable <= 4000) inTax = taxable * 0.40 - 279.6;
   else inTax = taxable * 0.45 - 479.6;
   
-  const resTax = taxable * 0.10; // 住民税10%
+  const resTax = taxable * 0.10; 
   return { tax: inTax + resTax, shk: shk };
 }
 
@@ -491,9 +489,12 @@ function calc(P){
   const edu=e1.map((v,i)=>Math.round(v+e2[i]+w1[i]+w2[i]));
   
   const fp=am.map(a=>P.fps.reduce((s,ev)=>ev.c===0?s+(a===ev.s?ev.a:0):a>=ev.s&&a<=ev.e&&(a-ev.s)%ev.c===0?s+ev.a:s,0));
-  const liv=am.map(a=>a>=P.pensionStart?P.livingOld:P.livingNow);
   
-  // ★住宅費のロジック修正
+  // 生活費の月額入力から年間額を計算
+  const curLivAnn = (P.food + P.daily + P.util) * 12;
+  const oldLivAnn = P.livingOldMon * 12;
+  const liv = am.map(a => a >= P.pensionStart ? oldLivAnn : curLivAnn);
+  
   const hou=am.map(a=>{
     if (a < P.houseBuyAge) return P.rentPre;
     let cost = 0;
@@ -517,9 +518,7 @@ function calc(P){
   });
   
   const inv=am.map(a=>a<=P.retireMn?(P.nisaMon+P.idecoMon)*12:0);
-  const ins=am.map(a=>a<=65?P.insurAnn:0);
   
-  // ★税金・社会保険料の計算（累進課税を反映）
   const tax=[], shk=[];
   for(let i=0;i<N;i++){
     let tTax = 0, tShk = 0;
@@ -539,12 +538,15 @@ function calc(P){
     else{irecv.push(0);const nl=Math.round((lp+(fl?P.idecoMon*12:0))*(1+rl));ia.push(nl);lp=nl;}
     const nm=Math.round((mp+(fl?P.nisaMon*12:0))*(1+rm));na.push(nm);mp=nm;
     const inc=incM[i]+penM[i]+penS[i]+irecv[i]+incS[i]+allow[i];
-    const exp=liv[i]+hou[i]+edu[i]+fp[i]+cM[i]+cS[i]+P.costFam+carLoan[i]+inv[i]+ins[i]+tax[i]+shk[i];
+    
+    // 不要となった固定家族支出（costFam）や保険料（insurAnn）をロジックから除外
+    const exp = liv[i] + hou[i] + edu[i] + fp[i] + cM[i] + cS[i] + carLoan[i] + inv[i] + tax[i] + shk[i];
+    
     const ns=sp+(inc-exp);sa.push(ns);sp=ns;
     ta.push(ns+nm+ia[i]);
   }
   const incA=am.map((_,i)=>incM[i]+penM[i]+penS[i]+irecv[i]+incS[i]+allow[i]);
-  const expA=am.map((_,i)=>liv[i]+hou[i]+edu[i]+fp[i]+cM[i]+cS[i]+P.costFam+carLoan[i]+inv[i]+ins[i]+tax[i]+shk[i]);
+  const expA=am.map((_,i)=>liv[i]+hou[i]+edu[i]+fp[i]+cM[i]+cS[i]+carLoan[i]+inv[i]+tax[i]+shk[i]);
   return{yr,am,as,ac1,ac2,incM,penM,penS,irecv,incS,allow,liv,hou,edu,fp,inv,tax,shk,
     nisa:na,ideco:ia,short:sa,total:ta,incA,expA,bal:incA.map((v,i)=>v-expA[i])};
 }
@@ -638,13 +640,12 @@ function renderTable(){
     {l:'公的年金',k:'penM',c:'tbl-pos'},{l:'iDeCo受取',k:'irecv',c:'tbl-pos'},
     {l:'生活費',k:'liv',c:'tbl-neg'},{l:'住宅',k:'hou',c:'tbl-neg'},
     {l:'教育費',k:'edu',c:'tbl-neg'},{l:'将来プラン',k:'fp',c:'tbl-neg'},
-    {l:'税金・社保',k:'tax',c:'tbl-neg'}, // 税金等の行を追加できますが、見やすさ優先なら省略でも可（現状はデータには入っています）
+    {l:'税金・社保',k:'tax',c:'tbl-neg'},
     {l:'NISA残高',k:'nisa',c:'tbl-pos'},{l:'預金残高',k:'short',c:'tbl-pos'},
     {l:'金融資産計',k:'total',c:''},
   ];
   const ths=D.am.slice(0,SHOW).map((a,i)=>`<th style="${a===65?'color:var(--grn)':a>=P.pensionStart?'color:var(--acc)':''}">${a}歳<br><span style="font-size:10px;opacity:.6;font-weight:400;">'${String(D.yr[i]).slice(2)}</span></th>`).join('');
   const trs=rows.map(r=>{
-    // 税金・社保行を見せる場合
     let arr = D[r.k];
     if (r.k === 'tax') arr = D.tax.map((t,i) => t + D.shk[i]);
     const tds=arr.slice(0,SHOW).map(v=>`<td class="${v<0?'tbl-neg':v>0&&r.c?r.c:''}">${v===0?'—':Math.round(v).toLocaleString()}</td>`).join('');
