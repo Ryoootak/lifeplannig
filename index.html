@@ -246,10 +246,12 @@ tr:hover td{background:var(--bg)}
     </div>
     <div class="field-row"><div class="field-info"><div class="field-name">購入予定年齢</div><div class="field-desc">住宅を購入し、ローン開始・初期費用が発生する年齢</div></div><div class="field-input"><input type="number" id="p_houseBuyAge" value="35" min="20" max="80"><span class="field-unit">歳</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">購入前 家賃（年間）</div><div class="field-desc">購入予定年齢に達するまでの年間家賃</div></div><div class="field-input"><input type="number" id="p_rentPre" value="192" step="1"><span class="field-unit">万円/年</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">購入時 初期費用・頭金</div><div class="field-desc">購入する年に現金で支払う諸費用と頭金の合計（一度だけ発生）</div></div><div class="field-input"><input type="number" id="p_houseInitial" value="200" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">購入時 初期費用・頭金</div><div class="field-desc">購入する年に現金で支払う諸費用と頭金の合計（一度だけ発生）</div></div><div class="field-input"><input type="number" id="p_houseInitial" value="600" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">ローン月額返済額</div><div class="field-desc">購入後のローン月額返済額（ボーナス払いなしの均等割）</div></div><div class="field-input"><input type="number" id="p_loanMonthly" value="20" step="0.5"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">ローン返済期間</div><div class="field-desc">何年間ローンを返済するか（35年・50年など。計算に反映されます）</div></div><div class="field-input"><input type="number" id="p_loanYears" value="35" min="10" max="50"><span class="field-unit">年</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">住宅維持費（年間）</div><div class="field-desc">購入後の固定資産税・修繕積立金・管理費など（ローン完済後も継続）</div></div><div class="field-input"><input type="number" id="p_maint" value="30" step="5"><span class="field-unit">万円/年</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">住宅ローン控除（年間）</div><div class="field-desc">所得税・住民税から控除される年間最大額</div></div><div class="field-input"><input type="number" id="p_loanDed" value="31.5" step="0.5"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">ローン控除 適用期間</div><div class="field-desc">控除が適用される年数（通常13年）</div></div><div class="field-input"><input type="number" id="p_loanDedYrs" value="13" min="0" max="20"><span class="field-unit">年</span></div></div>
   </div>
 
   <div class="settings-group">
@@ -261,7 +263,7 @@ tr:hover td{background:var(--bg)}
     <div class="field-row"><div class="field-info"><div class="field-name">日用品（月額）</div><div class="field-desc">日用品・消耗品</div></div><div class="field-input"><input type="number" id="p_daily" value="7" step="0.5"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">水道・光熱費（月額）</div><div class="field-desc">電気・ガス・水道代の平均</div></div><div class="field-input"><input type="number" id="p_util" value="3" step="0.5"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子供自立後の生活費（月額）</div><div class="field-desc">末子が大学卒業（22歳）後の生活費。食費・光熱費など子供がいなくなって減る分を反映</div></div><div class="field-input"><input type="number" id="p_livingKidsMon" value="22" step="0.5"><span class="field-unit">万円/月</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">老後の共通生活費（月額）</div><div class="field-desc">65歳以降の月額生活費（食費＋日用品＋光熱費）。現在より減る場合が多い</div></div><div class="field-input"><input type="number" id="p_livingOldMon" value="18" step="0.5"><span class="field-unit">万円/月</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">老後の共通生活費（月額）</div><div class="field-desc">65歳以降の月額生活費（食費＋日用品＋光熱費）。現在より減る場合が多い</div></div><div class="field-input"><input type="number" id="p_livingOldMon" value="15" step="0.5"><span class="field-unit">万円/月</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">保険料合計（年間）</div><div class="field-desc">生命保険・医療保険等の年間払込合計</div></div><div class="field-input"><input type="number" id="p_insurAnn" value="7"><span class="field-unit">万円/年</span></div></div>
   </div>
 
@@ -332,13 +334,13 @@ tr:hover td{background:var(--bg)}
     <div class="field-row"><div class="field-info"><div class="field-name">子1 幼稚園（3年計）</div><div class="field-desc">私立 約96万、公立 約0〜30万</div></div><div class="field-input"><input type="number" id="p_c1Yochi" value="0" step="5"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子1 小学校（6年計）</div><div class="field-desc">私立 約96万、公立 約32万</div></div><div class="field-input"><input type="number" id="p_c1Shou" value="96" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子1 中学校（3年計）</div><div class="field-desc">私立 約210万、公立 約46万</div></div><div class="field-input"><input type="number" id="p_c1Chu" value="210" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子1 高校（3年計）</div><div class="field-desc">私立 約154万（就学支援金差引後）、公立 約49万</div></div><div class="field-input"><input type="number" id="p_c1Koko" value="451" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子1 高校（3年計）</div><div class="field-desc">私立 約154万（就学支援金差引後）、公立 約49万</div></div><div class="field-input"><input type="number" id="p_c1Koko" value="150" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子1 大学（4年計）</div><div class="field-desc">文科省調査平均：私立文系 約410万、私立理系 約540万、国公立 約245万。文理平均で480万を初期値に設定</div></div><div class="field-input"><input type="number" id="p_c1Dai" value="480" step="50"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子1 結婚援助</div><div class="field-desc">子1が29歳時に計上</div></div><div class="field-input"><input type="number" id="p_c1Wed" value="200" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 幼稚園（3年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Yochi" value="0" step="5"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 小学校（6年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Shou" value="96" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 中学校（3年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Chu" value="210" step="10"><span class="field-unit">万円</span></div></div>
-    <div class="field-row"><div class="field-info"><div class="field-name">子2 高校（3年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Koko" value="451" step="10"><span class="field-unit">万円</span></div></div>
+    <div class="field-row"><div class="field-info"><div class="field-name">子2 高校（3年計）</div><div class="field-desc"></div></div><div class="field-input"><input type="number" id="p_c2Koko" value="150" step="10"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 大学（4年計）</div><div class="field-desc">文科省調査平均：私立文系 約410万、私立理系 約540万、国公立 約245万</div></div><div class="field-input"><input type="number" id="p_c2Dai" value="480" step="50"><span class="field-unit">万円</span></div></div>
     <div class="field-row"><div class="field-info"><div class="field-name">子2 結婚援助</div><div class="field-desc">子2が31歳時に計上</div></div><div class="field-input"><input type="number" id="p_c2Wed" value="200" step="10"><span class="field-unit">万円</span></div></div>
   </div>
@@ -404,9 +406,8 @@ const FP_INIT=[
   {name:'新婚旅行',amt:100,s:38,e:38,c:0},
   {name:'大規模修繕',amt:200,s:69,e:69,c:0},
   {name:'自動車 頭金（買い替え時）',amt:50,s:36,e:62,c:13},
-  {name:'サピックス（子1）',amt:80,s:39,e:47,c:0},
-  {name:'サピックス（子2）',amt:80,s:40,e:47,c:0},
-  {name:'サピックス（追加）',amt:80,s:41,e:47,c:0},
+  {name:'サピックス（子1）',amt:100,s:38,e:40,c:1},
+  {name:'サピックス（子2）',amt:100,s:43,e:45,c:1}
 ];
 
 function buildFPList(){
@@ -534,6 +535,7 @@ function readParams(){
     loanMonthly:g('p_loanMonthly'), loanAnn:g('p_loanMonthly') * 12, // 月額から年額を自動計算して全体に渡す
     loanYears:gi('p_loanYears'),  
     maint:g('p_maint'),
+    loanDed:g('p_loanDed'), loanDedYrs:gi('p_loanDedYrs'),
     mexp,sexp,
     c1Yochi:g('p_c1Yochi'),c1Shou:g('p_c1Shou'),c1Chu:g('p_c1Chu'),
     c1Koko:g('p_c1Koko'),c1Dai:g('p_c1Dai'),c1Wed:g('p_c1Wed'),
@@ -577,7 +579,7 @@ function calcTaxShk(income, isEmployed, age, childAges = []){
     else empDed=195;
   } else {
     empDed=age>=65?(income<=330?110:income<=410?income*0.25+27.5:income<=770?income*0.15+68.5:income<=1000?income*0.05+145.5:195.5)
-                 :(income<=130?60:income<=410?income*0.25+27.5:income<=770?income*0.15+68.5:income<=1000?income*0.05+145.5:195.5);
+                  :(income<=130?60:income<=410?income*0.25+27.5:income<=770?income*0.15+68.5:income<=1000?income*0.05+145.5:195.5);
   }
 
   // 扶養控除の計算
@@ -680,8 +682,9 @@ function calc(P){
     if(penM[i]>0){const r=calcTaxShk(penM[i],false,am[i]);tTax+=r.tax;tShk+=r.shk;}
     if(penS[i]>0){const r=calcTaxShk(penS[i],false,as[i]);tTax+=r.tax;tShk+=r.shk;}
 
-    if (am[i] >= P.houseBuyAge && am[i] < P.houseBuyAge + 13 && currentLoanBalance > 0) {
-      const deduction = Math.min(currentLoanBalance * 0.007, 35);
+    // 住宅ローン控除の適用
+    if (am[i] >= P.houseBuyAge && am[i] < P.houseBuyAge + P.loanDedYrs && currentLoanBalance > 0) {
+      const deduction = Math.min(currentLoanBalance * 0.007, P.loanDed);
       tTax = Math.max(0, tTax - deduction); 
     }
 
@@ -752,57 +755,33 @@ function renderKPI(){
   const t65=i65>=0?D.total[i65]:0;
   const defY=D.bal.filter(b=>b<0).length;
   const minS=Math.min(...D.short);
-  const RATE=0.007;
+  const RATE=0.007; // ローン計算用の想定金利
 
   const iBuy=D.am.findIndex(a=>a===P.houseBuyAge);
-  const downPayment=Math.round(P.shortInit*0.5/10)*10;
   const incAtBuy=iBuy>=0?D.incM[iBuy]+(D.incS[iBuy]||0):0;
 
-  function calcAffordable(){
-    if(iBuy<0||D.am.length<=iBuy)return 0;
-    const endIdx=Math.min(iBuy+35, D.am.length);
-    const surpluses=[];
-    for(let i=iBuy;i<endIdx;i++){
-      if(D.am[i]>=P.pensionStart)continue;
-      const normalInc=D.incM[i]+D.incS[i]+D.allow[i];
-      const takehome=normalInc-D.taxArr[i]-D.shkArr[i];
-      const houAdj=P.maint; 
-      const expNoHou=D.expA[i]-D.hou[i]+houAdj-D.taxArr[i]-D.shkArr[i]-D.fp[i]-D.edu[i];
-      surpluses.push(takehome-expNoHou);
-    }
-    if(surpluses.length===0)return 0;
-    surpluses.sort((a,b)=>a-b);
-    const EXCLUDE=5;
-    const minVal=surpluses[Math.min(EXCLUDE, surpluses.length-1)];
-    return Math.max(0, Math.floor(minVal/10)*10);
-  }
+  // 住宅予算（安全な返済負担率20%で計算）
+  const safe_ann = incAtBuy * 0.20; 
+  const total_35 = safe_ann * 35;
+  const total_50 = safe_ann * 50;
 
-  const annByIncome=Math.floor(incAtBuy*0.25/10)*10;
-  const annAfford=calcAffordable();
-
-  const lA=calcMaxLoan(annAfford,35,RATE), pA=lA+downPayment;
-  const lB=calcMaxLoan(annByIncome,35,RATE), pB=lB+downPayment;
-
-  const gap=pB-pA;
-  const gapMsg=gap>0
-    ?`生活ベースは年収ベースより${fmt(gap)}低い。支出の見直し余地あり`
-    :`生活ベースが年収ベース以上。現状の支出水準でも無理がない`;
-  const gapColor=gap>0?'var(--amber)':'var(--grn)';
+  const prin_35 = calcMaxLoan(safe_ann, 35, 0.01); // 借入目安は金利1%で厳しめに逆算
+  const prin_50 = calcMaxLoan(safe_ann, 50, 0.01);
 
   const t65c=t65>5000?'pos':t65>2000?'neu':'neg';
   const defC=defY===0?'pos':defY<5?'neu':'neg';
   
-  // 出力先を kpis（タブ下の4列グリッド）に変更
+  // 4列のKPIグリッドを更新
   document.getElementById('kpis').innerHTML=`
     <div class="hkpi"><div class="hkpi-l">65歳 資産</div><div class="hkpi-v ${t65c}">${fmt(t65)}</div></div>
     <div class="hkpi"><div class="hkpi-l">赤字年数</div><div class="hkpi-v ${defC}">${defY}年</div></div>
-    <div class="hkpi"><div class="hkpi-l">生活ベース</div><div class="hkpi-v neu">${pA>0?fmt(pA):'—'}</div></div>
-    <div class="hkpi"><div class="hkpi-l">年収比25%</div><div class="hkpi-v neu">${pB>0?fmt(pB):'—'}</div></div>`;
+    <div class="hkpi" title="借入目安: ${fmt(prin_35)} (金利1%)"><div class="hkpi-l">35年 返済総額</div><div class="hkpi-v neu">${fmt(total_35)}</div></div>
+    <div class="hkpi" title="借入目安: ${fmt(prin_50)} (金利1%)"><div class="hkpi-l">50年 返済総額</div><div class="hkpi-v neu">${fmt(total_50)}</div></div>`;
 
   const rows=[];
   if(minS<0) rows.push(`<div class="alert-row alert-r"><span class="alert-dot dot-r"></span>預金残高が最低 ${fmt(minS)} になる年があります。積立の増額や支出削減を検討してください</div>`);
   if(t65>8000) rows.push(`<div class="alert-row alert-g"><span class="alert-dot dot-g"></span>65歳時の資産 ${fmt(t65)} は十分な水準です</div>`);
-  if(pA>0&&pB>0) rows.push(`<div class="alert-row ${gap>0?'alert-a':'alert-g'}"><span class="alert-dot ${gap>0?'dot-a':'dot-g'}"></span>${gapMsg}（生活: ${fmt(pA)} ／ 年収比: ${fmt(pB)}）</div>`);
+  if(prin_35>0) rows.push(`<div class="alert-row alert-g"><span class="alert-dot dot-g"></span>年収20%基準の安全な借入目安は 35年: ${fmt(prin_35)} ／ 50年: ${fmt(prin_50)}（金利1%時）</div>`);
   
   document.getElementById('alerts').innerHTML=rows.length
     ?`<div class="alert-bar">${rows.join('')}</div>`:'';
